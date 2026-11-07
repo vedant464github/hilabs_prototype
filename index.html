@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Management Workbench prototype</title>
+<meta name="description" content="Clickable MVP prototype of a Case Management Workbench for health plan nurse case managers, built for the HiLabs product caselet. Five fictional members. A full text version of every screen is included in this page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#242321; --ink2:#4d4944; --ink3:#77716a; --line:#e9e4dc; --bg:#faf8f4; --card:#fff;
+  --brand:#242321; --brand2:#b0432a; --brand-bg:#fcebe4;
+  --red:#b8402a; --red-bg:#fcebe6; --amber:#8a5d00; --amber-bg:#fbf1d6;
+  --green:#3f6b3c; --green-bg:#eaf3e6; --violet:#5d5277; --violet-bg:#f1eef6; --grey-bg:#f3f0eb;
+  --coral:#c8502f; --coral-hover:#ad4325;
+  --radius:10px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;font-size:12.5px;cursor:pointer}
+a{color:var(--brand2)}
+button:focus-visible{outline:2px solid #e76545;outline-offset:2px}
+header{background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:0 24px;height:58px;position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:7px;background:#e76545;display:inline-block}
+.logo small{display:block;font-weight:500;color:var(--ink3);font-size:11px;line-height:1}
+nav{display:flex;gap:2px;height:100%}
+nav button{background:none;border:0;border-bottom:2px solid transparent;color:var(--ink2);padding:0 12px;font-weight:500;font-size:13px;white-space:nowrap;height:100%}
+nav button.on{color:var(--ink);border-bottom-color:#e76545}
+.meta{margin-left:auto;display:flex;gap:8px;align-items:center;font-size:12px;color:var(--ink2)}
+.kpi{background:var(--grey-bg);padding:4px 10px;border-radius:20px;white-space:nowrap}
+.kpi b{color:var(--ink)}
+main{padding:22px 24px 70px;max-width:1440px;margin:0 auto}
+.note{background:var(--grey-bg);color:var(--ink2);padding:8px 12px;border-radius:8px;font-size:12.5px;margin-bottom:18px}
+h1{font-size:20px;margin:0}
+h2{font-size:16px;margin:0 0 4px;font-weight:600}
+h3{font-size:13px;color:var(--ink);margin:0 0 10px;font-weight:600}
+.sub{color:var(--ink3);font-size:12.5px;margin:0 0 14px}
+.grid{display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.chip{display:inline-flex;align-items:center;padding:2px 9px;border-radius:12px;font-size:12px;font-weight:500;margin:3px 5px 0 0;white-space:nowrap}
+.k-event{background:var(--red-bg);color:var(--red)} .k-med{background:var(--amber-bg);color:var(--amber)}
+.k-contact{background:var(--grey-bg);color:var(--ink)} .k-social{background:var(--violet-bg);color:var(--violet)}
+.k-due{background:var(--brand);color:#fff} .k-ok{background:var(--green-bg);color:var(--green)} .k-grey{background:var(--grey-bg);color:var(--ink2)}
+.src{display:inline-block;font-size:11px;font-weight:600;color:var(--brand2);background:var(--brand-bg);padding:0 7px;border-radius:5px;margin-left:5px;cursor:pointer;border:0;line-height:18px}
+.src:hover{background:#f8d9cc}
+.btn{border:1px solid #d9d2c7;background:#fff;padding:7px 13px;border-radius:8px;font-weight:500;color:var(--ink)}
+.btn:hover{background:var(--grey-bg)}
+.btn.primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn.primary:hover{background:var(--coral-hover);border-color:var(--coral-hover)}
+.btn.primary:disabled{background:#d9cfc4;border-color:#d9cfc4;color:#6f675e;cursor:not-allowed}
+.btn.small{padding:4px 10px;font-size:12px}
+.btn.link{border:0;background:none;color:var(--brand2);padding:0}
+.muted{color:var(--ink3)} .tiny{font-size:12px}
+/* today */
+.today{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)}
+.qcard{display:grid;grid-template-columns:40px 1fr auto;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;margin-bottom:10px}
+.rank{width:34px;height:34px;border-radius:50%;background:var(--brand-bg);color:var(--brand2);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px}
+.qname{font-weight:600;font-size:14.5px}
+.qside{text-align:right;min-width:150px}
+.score{font-size:22px;font-weight:700;color:var(--ink)}
+.why{margin-top:10px;background:var(--grey-bg);border-radius:8px;padding:10px 12px}
+.why table{width:100%;border-collapse:collapse;font-size:12.5px}
+.why td{padding:2px 4px}
+.why td:last-child{text-align:right;font-weight:600}
+.moved{animation:flash 1.8s ease}
+@keyframes flash{0%{background:#fff7d6}100%{background:#fff}}
+.plan-item{display:grid;grid-template-columns:56px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.plan-item:last-child{border:0}
+.plan-time{font-weight:600;color:var(--brand2)}
+.feed-item{padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.feed-item:last-child{border:0}
+.slider-row{display:grid;grid-template-columns:1fr 100px 26px;gap:10px;align-items:center;font-size:12.5px;margin:5px 0}
+.slider-row input{width:100%;accent-color:var(--coral)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 16px;border-radius:9px;font-size:13px;opacity:0;transition:opacity .3s;z-index:50;max-width:640px;pointer-events:none}
+.toast.show{opacity:1}
+/* 360 */
+.mhead{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.facts{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:12.5px;color:var(--ink2);margin-top:6px}
+.facts b{color:var(--ink);font-weight:600}
+.dl{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.dl div{background:#fff;border:1px solid var(--line);border-left:4px solid var(--ink3);border-radius:8px;padding:10px 12px}
+.dl .crit{border-left-color:#e76545} .dl .warn{border-left-color:#d9a52b} .dl .info{border-left-color:#8fa77f}
+.dl small{color:var(--ink3);font-size:11.5px;display:block}
+.dl b{font-size:15px}
+.m360{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+.summary li{margin:0 0 7px}
+.banner{border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.banner.match{background:#fdf6ee;border:1px solid #f0d9c6}
+.banner.restricted{background:var(--grey-bg);border:1px dashed #c2c9d3}
+.banner.ai{background:#fff;border:1px solid var(--line);display:block}
+.badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px;white-space:nowrap}
+.badge.ai{background:var(--amber-bg);color:var(--amber)} .badge.ok{background:var(--green-bg);color:var(--green)} .badge.rn{background:var(--grey-bg);color:var(--ink)}
+.badge.bad{background:var(--red-bg);color:var(--red)} .badge.warn{background:var(--amber-bg);color:var(--amber)} .badge.grey{background:var(--grey-bg);color:var(--ink2)}
+.mcheck{font-size:11px;color:var(--green);background:var(--green-bg);padding:1px 7px;border-radius:5px;font-weight:600;white-space:nowrap}
+table.t{width:100%;border-collapse:collapse;font-size:12.5px}
+table.t th{text-align:left;font-weight:600;color:var(--ink3);font-size:11.5px;padding:6px;border-bottom:1px solid var(--line)}
+table.t td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.hi td{background:#fffafa}
+.sev{font-weight:600;font-size:11.5px}
+.sev.High{color:var(--red)} .sev.Medium{color:var(--amber)}
+.tl{position:relative;padding-left:18px}
+.tl:before{content:"";position:absolute;left:5px;top:5px;bottom:5px;width:2px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:10px}
+.tl-item:before{content:"";position:absolute;left:-17px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--ink3)}
+.tl-item.event:before{background:#e76545} .tl-item.med:before{background:#d9a52b} .tl-item.contact:before{background:var(--ink)} .tl-item.social:before{background:var(--violet)}
+.tl-when{font-weight:600;font-size:12.5px}
+.lag{font-size:11px;color:var(--amber);font-weight:600;margin-left:6px}
+.fresh{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.fresh div{border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
+.g{background:#4f9a5a}.a{background:#d9a52b}.r{background:#e76545}
+.nba-item{display:grid;grid-template-columns:24px 1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);align-items:start}
+.nba-item:last-child{border:0}
+.num{width:22px;height:22px;border-radius:50%;background:var(--brand-bg);color:var(--brand2);font-weight:700;font-size:11.5px;display:flex;align-items:center;justify-content:center}
+.nba-item.done{opacity:.5}
+.nba-item.done .nba-t{text-decoration:line-through}
+.gauge{height:8px;background:var(--grey-bg);border-radius:6px;overflow:hidden;margin-top:6px}
+.gauge span{display:block;height:100%;background:#e76545;border-radius:6px}
+.row{padding:8px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.between{display:flex;justify-content:space-between;gap:10px;align-items:center}
+/* call */
+.call{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}
+.ladder-item{display:grid;grid-template-columns:26px 1fr auto;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;align-items:center}
+.ladder-item.dead{background:var(--grey-bg);color:var(--ink3)}
+.ladder-item.dead .phone{text-decoration:line-through}
+.ladder-item.best{border-color:#e76545;box-shadow:0 0 0 3px var(--brand-bg)}
+.phone{font-weight:600}
+.outcomes{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.field{border:1px solid #ecd290;background:#fffaec;border-radius:9px;padding:10px 12px;margin-bottom:9px}
+.field.ok{border-color:#bcd9b4;background:#f5faf3}
+.field.rn{border-color:#ddd6cb;background:#fff}
+.field textarea{width:100%;border:1px solid var(--line);border-radius:7px;padding:7px 8px;font-family:inherit;font-size:13px;resize:vertical;margin:6px 0;background:#fff;color:var(--ink)}
+.log-item{font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line)}
+.filed{background:var(--green-bg);border:1px solid #bcd9b4;border-radius:9px;padding:11px 13px;margin-top:12px}
+/* popover */
+.pop{position:fixed;inset:0;background:rgba(16,24,40,.35);display:none;align-items:center;justify-content:center;z-index:60}
+.pop.show{display:flex}
+.pop .box{background:#fff;border-radius:14px;max-width:540px;width:92%;padding:18px 20px;box-shadow:0 20px 50px rgba(36,35,33,.18)}
+.pop h4{margin:0 0 6px;font-size:15px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:5px 12px;font-size:13px;margin-top:10px}
+.kv div:nth-child(odd){color:var(--ink3)}
+.quote{background:var(--grey-bg);border-left:3px solid #e76545;padding:7px 11px;margin-top:10px;font-style:italic;font-size:13px;border-radius:0 6px 6px 0}
+.reasons{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+/* team */
+.team{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.cap{height:8px;border-radius:6px;background:var(--grey-bg);overflow:hidden;width:120px;display:inline-block;vertical-align:middle;margin-right:8px}
+.cap span{display:block;height:100%;border-radius:6px}
+/* before-after */
+.ba{grid-template-columns:1fr 1fr}
+.sys{display:grid;grid-template-columns:1fr 70px;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+.sys b{display:block}
+.bar{height:10px;border-radius:6px;background:#e76545;display:block;margin-top:6px}
+.bar.g2{background:#4f9a5a}
+.big{font-size:30px;font-weight:700;color:var(--ink)}
+@media (max-width:1000px){.today,.m360,.call,.team,.ba{grid-template-columns:1fr} .dl{grid-template-columns:1fr} header{flex-wrap:wrap;height:auto;padding:10px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i></i><div>Case Management Workbench<small>Prototype on MCheck data</small></div></div>
+  <nav id="nav">
+    <button data-v="today">Today</button>
+    <button data-v="member">Member 360</button>
+    <button data-v="call">Call and note</button>
+    <button data-v="team">Team lead</button>
+    <button data-v="about">About</button>
+  </nav>
+  <div class="meta">
+    <a class="kpi" href="https://github.com/vedant464github/hilabs_prototype" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink)">Code and data</a>
+    <span class="kpi">Conversations <b id="kConv">0</b> of 5 planned</span>
+    <span class="kpi">Notes signed <b id="kNotes">0</b></span>
+    <span class="kpi">Data fixes sent <b id="kFix">0</b></span>
+  </div>
+</header>
+<article id="text-version" style="max-width:900px;margin:0 auto;padding:24px;font-family:system-ui,sans-serif;line-height:1.55;color:#242321">
+<h1>Case Management Workbench: text version of the prototype</h1>
+<p>This is a plain-text description of every screen in the clickable prototype, for readers and tools that do not run JavaScript. In a browser the interactive app replaces this text. All members, IDs, phone numbers and providers are fictional.</p>
+<p>Live prototype: <a href="https://vedant464github.github.io/hilabs_prototype/">https://vedant464github.github.io/hilabs_prototype/</a>. Code, README with screenshots, and all prototype data as JSON: <a href="https://github.com/vedant464github/hilabs_prototype">https://github.com/vedant464github/hilabs_prototype</a> (data file: <a href="https://github.com/vedant464github/hilabs_prototype/blob/main/data.json">data.json</a>).</p>
+<p>Built for the HiLabs product caselet 2026-27 by Vedant Abhangrao, IIT Bombay. The product is a web workbench for a health plan's nurse case managers. The persona, Maria, has 48 cases and manages about two real conversations a day because her time goes to finding data across six or seven systems, dialling dead numbers and retyping notes. The prototype assumes HiLabs MCheck underneath: MCheck Clinical standardizes clinical data and MCheck Directory Accuracy checks provider details.</p>
+<h2>Screens</h2>
+<ol><li><b>Today</b>: ranks members with new signals using readable rules, shows why, and plans each call for when the person can answer.</li>
+<li><b>Member 360</b>: one page per member with deadlines, a cited summary of what changed, medicines by source with conflicts, next actions, timeline, open loops, quality gaps, social needs and source freshness.</li>
+<li><b>Call and note</b>: ranked contacts, one-click outcomes, a call agenda, and AI-drafted note fields the nurse must confirm before signing once.</li>
+<li><b>Team lead</b>: caseload against capacity and routing suggestions.</li>
+<li><b>About</b>: design principles, what is automated and what the nurse decides, and a before and after of preparing one call.</li></ol>
+<h2>Today screen, Monday 9 November 2026, 08:00</h2>
+<p>Five of 48 cases have new signals since Friday; the other 43 are on schedule. Priority points come from these rules, which the clinical lead can tune:</p>
+<ul><li>Discharged or ED visit in the last 7 days: 25 points</li><li>Care deadline within 2 business days, or already missed: 20 points</li><li>Medication safety conflict for a clinician to review: 20 points</li><li>Critical medicine not picked up, or a gap over 30 days: 15 points</li><li>No follow-up booked, missed, or booked too late: 15 points</li><li>3 or more acute visits in 90 days: 10 points</li><li>New event since the last successful contact: 10 points</li><li>Not reached for more than 21 days: 10 points</li><li>Open social or caregiver barrier: 5 points</li><li>Risk score up 0.20 or more in 3 months: 5 points</li></ul>
+<ol>
+<li><b>Lloyd Thornton</b>, 78M, Heart failure care management. <b>110 points</b> (Discharged or ED visit in the last 7 days +25; Care deadline within 2 business days, or already missed +20; Medication safety conflict for a clinician to review +20; Critical medicine not picked up, or a gap over 30 days +15; No follow-up booked, missed, or booked too late +15; New event since the last successful contact +10; Open social or caregiver barrier +5). Labels: Discharged Saturday, heart failure; New medicines not picked up; Lisinopril stopped but still at home; Follow-up call due Tue. Best time: Before noon. Due: Tue 10 Nov. Day plan: 08:30, Call Lloyd and Marilyn about his medicines.</li>
+<li><b>Travis Whitlock</b>, 39M, Complex care management, frequent ED use. <b>85 points</b> (Discharged or ED visit in the last 7 days +25; Critical medicine not picked up, or a gap over 30 days +15; No follow-up booked, missed, or booked too late +15; 3 or more acute visits in 90 days +10; New event since the last successful contact +10; Not reached for more than 21 days +10). Labels: ED visit last night for asthma; New phone number found; 5 ED visits in 90 days, 2 unconfirmed; Rescue inhaler only. Best time: 9 to 10 am. Due: Closure review 5 Dec. Day plan: 09:15, Travis, using the new number.</li>
+<li><b>Courtney Stanton</b>, 30F, Behavioral health care management; counselor C. Ellison, LCSW. <b>50 points</b> (Care deadline within 2 business days, or already missed +20; No follow-up booked, missed, or booked too late +15; New event since the last successful contact +10; Open social or caregiver barrier +5). Labels: Psychiatric discharge 28 Oct; 7-day follow-up missed; No-show on 3 Nov; Evicted, now at a shelter. Best time: 10 am to 4 pm through the shelter. Due: Follow-up window closes 27 Nov. Day plan: 10:30, Courtney, through Robin W. at Bridgeway.</li>
+<li><b>Yu-Lan Chen</b>, 81F, Complex care management, dementia. <b>40 points</b> (Medication safety conflict for a clinician to review +20; No follow-up booked, missed, or booked too late +15; Open social or caregiver barrier +5). Labels: Sleeping pill on 25 Oct, fall on 30 Oct; Aide came 8 of 20 hours; Walker never delivered; Medicaid renewal 30 Nov. Best time: Daughter, after 7 pm. Due: Renewal 30 Nov. Day plan: 19:15, Call Karen, Yu-Lan&#x27;s daughter.</li>
+<li><b>Felicia Nwosu</b>, 58F, Diabetes, rising risk. <b>25 points</b> (Critical medicine not picked up, or a gap over 30 days +15; Open social or caregiver barrier +5; Risk score up 0.20 or more in 3 months +5). Labels: No hospital event, found by the rules; HbA1c about 9.5%, was 7.1%; Diabetes medicine stopped after an approval denial; Works nights. Best time: Text at 3 pm, call 4 to 6 pm. Due: Quality gaps by 31 Dec. Day plan: 15:00, Text Felicia, then call at 16:30.</li>
+</ol><p>A "Simulate" button shows a pharmacy fill arriving at 09:12 for Lloyd: his score drops from 110 to 95 but he stays first, because the medicine conflict and Tuesday deadline remain.</p>
+<h2>Member 360 and Call and note, member by member</h2>
+<h3>Lloyd Thornton (78M, MBR3853149, Bluestem MA-HMO)</h3>
+<p>Program: Heart failure care management. Language: English. PCP: Dr. Lucia Ibarra, Hawthorn Family Clinic (Verified by MCheck Directory Accuracy, 1 Sep). Representative: Wife Marilyn, manages his pills (verbal permission each call). Last contact: 12 Oct, connected.</p>
+<p><b>Deadlines:</b> Post-discharge call: Due Tue 10 Nov (2 business days after discharge); PCP visit and blood test: By 14 Nov (Day 2 of 7); Medication reconciliation (HEDIS): By 7 Dec (30 days after discharge)</p>
+<p><b>What changed since the last contact (AI summary, every line cited):</b></p><ul><li>Admitted 4 to 7 Nov at Cedar Hollow General with heart failure (ejection fraction 25%) and a kidney injury. <small>(records: A-1001, A-1004, D-1101)</small></li><li>Four medicines changed at discharge: furosemide doubled to twice daily, spironolactone started, lisinopril stopped, metformin on hold. <small>(records: D-1101)</small></li><li>None of the new or changed medicines had been picked up by 06:00 today. Lisinopril and metformin are still at home. <small>(records: R-1101, R-1105)</small></li><li>His furosemide ran out on 15 Oct, three weeks before he was admitted. On 12 Oct you noted ankle swelling and no scale. <small>(records: R-1102, N-1101)</small></li><li>Potassium is 4.9 on the new spironolactone and eGFR is 31, so he needs a blood test this week. <small>(records: L-1105)</small></li><li>Home health approval has been stuck since Saturday, and no PCP visit is booked. <small>(records: U-1101, AP-1101)</small></li></ul>
+<p><b>Medicines by source</b> (hospital or ED; pharmacy dispensed; PCP list; conflict):</p><ul><li>Lisinopril: hospital Stop (kidney injury); pharmacy Filled 20 Oct, 90 days at home; PCP Active; conflict High Stopped but still at home; ask: Has he stopped it? Where is the bottle?</li><li>Metformin: hospital Hold until kidney recheck; pharmacy Filled 1 Oct, 90 days; PCP Active; conflict High Held but still at home; ask: Is he still taking it?</li><li>Furosemide: hospital 40 mg twice daily; pharmacy 20 mg daily, ran out 15 Oct, new dose not filled; PCP 20 mg daily; conflict High New dose not dispensed; ask: Which water pill, and how often?</li><li>Spironolactone: hospital 25 mg daily, new; pharmacy No claim; PCP None; conflict High New medicine not dispensed; ask: Does he have it?</li><li>Metoprolol succinate: hospital Continue 50 mg; pharmacy Filled 1 Oct, 90 days; PCP 50 mg; conflict none</li></ul>
+<p><b>Timeline (event, and when the plan found out):</b></p><ul><li>12 Oct: Your call: ankle swelling, no scale at home <small>(records: N-1101)</small></li><li>15 Oct: Furosemide supply ran out <small>(records: R-1102)</small></li><li>20 Oct: Lisinopril filled for 90 days <small>(records: R-1101)</small></li><li>4 Nov, 22:15: Admitted to Cedar Hollow General, duplicate alert merged (received 16 min later) <small>(records: A-1001)</small></li><li>7 Nov, 14:10: Discharged home, no diagnosis in the alert (received 15 min later) <small>(records: A-1004)</small></li><li>7 Nov: Home health approval requested, still pending <small>(records: U-1101)</small></li><li>8 Nov, 09:12: Discharge summary arrived (19 hours after discharge) <small>(records: D-1101)</small></li></ul>
+<p><b>Key labs:</b> BNP 1,450 pg/mL on 4 Nov, Very high (normal under 100); Creatinine 2.1 mg/dL on 4 Nov, Up from 1.4 in June; eGFR 31 on 4 Nov, Stage 3b kidney function; Potassium 4.9 mmol/L on 6 Nov, High normal on new spironolactone</p>
+<p><b>Open loops:</b></p><ul><li>Home health nursing approval: Pending 2 days, code PEND-CI (plan asked the hospital for information) <small>(records: U-1101)</small></li><li>Scale order, your task from 12 Oct: Open for 28 days <small>(records: N-1101)</small></li><li>PCP visit within 7 days of discharge: Not booked, due 14 Nov <small>(records: AP-1101)</small></li></ul>
+<p><b>Quality gaps:</b> Medication reconciliation after discharge (By 7 Dec); Patient engagement after discharge (By 7 Dec)</p>
+<p><b>Social needs and caregiver:</b> Wife (82) manages pills and drives [stale, 252 days old]. The hospital note says his wife now has trouble walking, so the transport answer may be wrong.</p>
+<p><b>Source freshness:</b> Hospital alerts: 7 Nov, 14:25; Pharmacy fills: 9 Nov, 06:00; Clinical documents: 8 Nov, 09:12; Labs: 8 Nov; Medical claims: Up to 8 Oct (32 days); Risk model: 1 Nov, before admission; Social screen: 2 Mar (252 days)</p>
+<p><b>Next best actions:</b></p><ol><li>Call Lloyd and Marilyn before noon and go through the four changed medicines. Because: Follow-up call due Tuesday; discharge medicines differ from pharmacy records.</li><li>Arrange same-day delivery of spironolactone and the new furosemide dose. Because: No fill by 06:00 today, about 40 hours after discharge.</li><li>Call utilization management to clear the home health approval. Because: Pending over the weekend.</li><li>Book a PCP visit and blood test by 14 Nov. Because: Nothing booked; potassium 4.9.</li><li>Order a scale and teach daily weights. Because: Your task has been open for 28 days.</li></ol>
+<p><b>Call and note, who to call in order:</b></p><ul><li>Order 1: Lloyd, with wife Marilyn on speaker, (419) 555-0136. Mobile, valid, last reached 12 Oct. Authorized: Yes (wife: verbal each call). Best time: Mornings.</li></ul>
+<p><b>Call agenda:</b></p><ol><li>Breathing, swelling, and today&#x27;s weight if he has a scale</li><li>Go bottle by bottle: stop lisinopril, hold metformin, start spironolactone, furosemide 40 mg twice a day</li><li>Offer same-day delivery of the new medicines</li><li>Book PCP visit and blood test this week</li><li>Daily weights: call if up 2 lb in a day or 5 lb in a week</li></ol>
+<p><b>Note fields:</b> AI drafts only what it can cite (shown amber until the nurse confirms); fields marked clinician-only are never pre-filled. Signing unlocks once every AI field is confirmed and files the note to the assessment, care plan, contact note and quality record.</p><ul><li>Medication reconciliation (HEDIS) [AI draft]: Done with member and wife. Lisinopril stopped, metformin held, spironolactone 25 mg and furosemide 40 mg twice daily started. (source: D-1101 and pharmacy)</li><li>Discharge instructions understood [AI draft]: Daily weights. Call if up 2 lb in a day or 5 lb in a week. 2 g sodium diet. (source: D-1101)</li><li>Follow-up appointment [AI draft]: PCP at Hawthorn Family Clinic by 14 Nov with blood test. (source: AP-1101)</li><li>Home health [AI draft]: Skilled nursing approval pending, escalated to utilization management. (source: U-1101)</li><li>Caregiver [AI draft]: Wife Marilyn present and manages medicines. (source: N-1101)</li><li>Clinical observations from the call [clinician only]: left blank for the nurse (source: Clinician only)</li></ul>
+<h3>Travis Whitlock (39M, MBR1327683, Bluestem Medicaid)</h3>
+<p>Program: Complex care management, frequent ED use. Language: English. PCP: Dr. Farah Bergstrom, Elmhurst Primary Care (never seen) (Listing outdated per MCheck Directory Accuracy). Representative: None. Last contact: Never reached.</p>
+<p><b>Possible match:</b> Two ED records from Elmhurst Medical Center, registered as WHITLOCK, TRAV with an old address, match this member at 88%. Anything under 95% waits for a person to confirm. <small>(records: A-3001)</small> The nurse confirms or rejects it.</p>
+<p><b>Deadlines:</b> PCP visit after ED: Within 3 to 5 days (Per ED discharge note); Unable to reach review: 5 Dec (Would close his case); Asthma medication ratio (HEDIS): By 31 Dec (Controller fills needed)</p>
+<p><b>What changed since the last contact (AI summary, every line cited):</b></p><ul><li>ED visit last night at St. Ambrose for an asthma attack. Sent home at 04:20. <small>(records: A-3005)</small></li><li>The ED note says he ran out of his controller inhaler because of the cost, and he is staying with his sister. <small>(records: D-3101)</small></li><li>A new phone number was captured at that ED visit. The number on file has been dead since 21 Oct and was still called three more times. <small>(records: A-3005, K-3107)</small></li><li>Four albuterol fills in 90 days at Wellway Pharmacy #313 and no controller since May. <small>(records: R-3106)</small></li><li>No PCP visit in 18 months, and his case is set for an unable to reach closure. <small>(records: N-3101)</small></li></ul>
+<p><b>Medicines by source</b> (hospital or ED; pharmacy dispensed; PCP list; conflict):</p><ul><li>Fluticasone and salmeterol (controller): hospital ED: restart controller, too expensive; pharmacy Last filled 30 May; PCP Prescribed; conflict Medium Recommended but not taken (cost); ask: Can you afford the purple inhaler?</li><li>Albuterol (rescue): hospital Refill; pharmacy 4 fills in 90 days; PCP As needed; conflict Medium Leaning on the rescue inhaler; ask: How often are you using it?</li></ul>
+<p><b>Timeline (event, and when the plan found out):</b></p><ul><li>22 Aug: ED at Elmhurst, not yet linked (88% match) <small>(records: A-3001)</small></li><li>18 Sep: ED at St. Ambrose, asthma</li><li>9 Oct: ED at Elmhurst, asthma, prednisone</li><li>21 Oct: Number on file found disconnected <small>(records: K-3107)</small></li><li>27 Oct: ED at Elmhurst, back pain, not yet linked (88% match) <small>(records: A-3001)</small></li><li>7 Nov, 23:50: ED at St. Ambrose for an asthma attack, new phone captured (received 22 min later) <small>(records: A-3005)</small></li><li>8 Nov: Albuterol refill at Wellway #313 <small>(records: R-3106)</small></li></ul>
+<p><b>Open loops:</b></p><ul><li>Unable to reach closure review: Set for 5 Dec. It would drop the member with the most ED visits. <small>(records: N-3101)</small></li><li>PCP phone in the directory: The practice moved. MCheck Directory Accuracy suggests the new number. <small>(records: P-3001)</small></li></ul>
+<p><b>Quality gaps:</b> Asthma medication ratio (By 31 Dec); Adult access to preventive care (By 31 Dec)</p>
+<p><b>Social needs and caregiver:</b> No social screen on file, he has never been reached [none on file]. Ask on the first call about where he is staying, the cost of medicines, and his phone.</p>
+<p><b>Source freshness:</b> Hospital alerts: 8 Nov, 00:12; Pharmacy fills: 9 Nov, 06:00; Clinical documents: 8 Nov, 11:40; Medical claims: Up to 9 Oct, 2 ED visits missing; Phone check: 21 Oct; Social screen: None</p>
+<p><b>Next best actions:</b></p><ol><li>Confirm or reject the two unlinked ED records. Because: A person decides any match under 95%.</li><li>Call or text the new number (419) 555-0124 between 9 and 10 am. Because: Fresher number from last night&#x27;s ED visit.</li><li>If he does not answer, leave a message with the Wellway pharmacist. Because: He picks up albuterol there every few weeks.</li><li>Cancel the unable to reach closure. Because: He can be reached now.</li><li>Ask the PCP about an affordable controller and book a first visit. Because: Rescue-only asthma pattern.</li></ol>
+<p><b>Call and note, who to call in order:</b></p><ul><li>Order 1: Travis, number from the 7 Nov ED visit, (419) 555-0124. Mobile, not yet verified, 1 day old. Authorized: Yes. Best time: Late morning.</li><li>Order 2: Wellway Pharmacy #313, sees him every 3 weeks, (419) 555-0155. Valid. Authorized: Message only, no health details. Best time: Next pickup around 1 Dec.</li><li>Order 3: Sister, name unknown, Unknown. Mentioned in the ED note. Authorized: Not authorized. Best time: n/a.</li><li>Do not dial: Travis, number in the member file, (419) 555-0143. Disconnected since 21 Oct. Authorized: n/a. Best time: n/a.</li></ul>
+<p><b>Call agenda:</b></p><ol><li>Confirm this is his number and whether texts work better</li><li>How is his breathing since the ED visit?</li><li>Controller inhaler: find a cheaper option or copay help</li><li>Book a first PCP visit and offer transport</li><li>Where is he staying? Update the address and do a short social screen</li></ol>
+<p><b>Note fields:</b> AI drafts only what it can cite (shown amber until the nurse confirms); fields marked clinician-only are never pre-filled. Signing unlocks once every AI field is confirmed and files the note to the assessment, care plan, contact note and quality record.</p><ul><li>Verified contact number [AI draft]: (419) 555-0124 confirmed with the member and set as primary. Old number retired. (source: A-3005)</li><li>Asthma control [AI draft]: 4 rescue inhaler fills in 90 days, no controller since May, ED visit on 7 Nov. (source: R-3106, D-3101)</li><li>Barrier [AI draft]: Cannot afford the controller inhaler. (source: D-3101)</li><li>Address [AI draft]: Staying with his sister, street to confirm. (source: D-3101)</li><li>Social needs screen (first one) [clinician only]: left blank for the nurse (source: Clinician asks on the call)</li></ul>
+<h3>Courtney Stanton (30F, MBR2908397, Bluestem Medicaid)</h3>
+<p>Program: Behavioral health care management; counselor C. Ellison, LCSW. Language: English. PCP: Dr. Joseph Feld, Crossroads Community Health. Psychiatry: Dr. Rahul Hashmi (Verified by MCheck Directory Accuracy, 1 Oct). Representative: Release on file for Robin W., Bridgeway Center shelter. Last contact: 2 Nov, through the shelter case worker.</p>
+<p><b>Restricted record:</b> One restricted record exists for substance use treatment (42 CFR Part 2). There is no consent on file, so nobody can see what it says. Ask her about consent at the next contact.</p>
+<p><b>Deadlines:</b> 30-day follow-up after psychiatric stay: By 27 Nov (18 days left); 7-day follow-up: Missed (Was due 4 Nov); Discharge summary: Requested 29 Oct (Not received)</p>
+<p><b>What changed since the last contact (AI summary, every line cited):</b></p><ul><li>Inpatient psychiatric stay from 20 to 28 Oct at Anchor Behavioral Health. The discharge summary was requested on 29 Oct and has not arrived. <small>(records: A-4002, D-4101)</small></li><li>She missed the 7-day follow-up: a no-show on 3 Nov, and the intensive outpatient intake was cancelled on 5 Nov. The 30-day window closes on 27 Nov. <small>(records: AP-4101)</small></li><li>She was evicted in September and is staying at Bridgeway Center shelter. The address on file and the housing screen are out of date. <small>(records: N-4101, S-4101)</small></li><li>Quetiapine and lamotrigine were filled at discharge for 30 days. A quetiapine gap in September came before the admission. <small>(records: R-4102)</small></li><li>Her prepaid phone keeps running out of minutes. The shelter case worker is the route that works. <small>(records: N-4101)</small></li></ul>
+<p><b>Medicines by source</b> (hospital or ED; pharmacy dispensed; PCP list; conflict):</p><ul><li>Quetiapine and lamotrigine: hospital Unknown, summary not received; pharmacy Filled 28 Oct, 30 days; PCP Quetiapine (July); conflict Medium Discharge plan unknown; ask: What did the hospital send you home on?</li><li>Substance use medicine: hospital Restricted; pharmacy Restricted; PCP Restricted; conflict No consent on file; ask: Ask about Part 2 consent</li></ul>
+<p><b>Timeline (event, and when the plan found out):</b></p><ul><li>Sep: Evicted from her apartment (case note) <small>(records: N-4101)</small></li><li>1 Sep to 20 Oct: Gap in quetiapine <small>(records: R-4102)</small></li><li>20 Oct: Admitted to Anchor Behavioral Health, reason withheld <small>(records: A-4002)</small></li><li>28 Oct: Discharged, disposition says home (wrong address) (received 45 min later) <small>(records: A-4002)</small></li><li>28 Oct: Quetiapine and lamotrigine filled <small>(records: R-4102)</small></li><li>2 Nov: Three-way call through the shelter case worker <small>(records: N-4101)</small></li><li>3 Nov: Psychiatry no-show <small>(records: AP-4101)</small></li></ul>
+<p><b>Open loops:</b></p><ul><li>Discharge summary: Requested 29 Oct, not received. Asked again every 72 hours. <small>(records: D-4101)</small></li><li>Intensive outpatient program, 12 sessions approved: Not attended, intake cancelled <small>(records: AP-4101)</small></li><li>Lifeline phone referral: Open since 2 Nov <small>(records: N-4101)</small></li></ul>
+<p><b>Quality gaps:</b> Follow-up after psychiatric stay, 7 days (Missed); Follow-up after psychiatric stay, 30 days (By 27 Nov)</p>
+<p><b>Social needs and caregiver:</b> Housing recorded as stable, in an apartment [stale, 208 days old]. The 2 Nov case note says she was evicted and is at Bridgeway Center shelter.; Prepaid phone, often out of minutes</p>
+<p><b>Source freshness:</b> Hospital alerts: 28 Oct, 11:45; Appointments: 4 Nov; Pharmacy fills: 9 Nov, 06:00; Clinical documents: Not received; Social screen: 15 Apr (208 days); Medical claims: Up to August, stay not in yet</p>
+<p><b>Next best actions:</b></p><ol><li>Call Robin W. at Bridgeway between 10 and 4 to set up a three-way call, and text Courtney. Because: The only route that has worked.</li><li>Book a telehealth psychiatry visit with Dr. Hashmi this week. Because: 30-day window closes 27 Nov.</li><li>Safety check on the call. Because: Clinician only, never automated.</li><li>Update her address, repeat the housing screen, refer for housing. Because: Screen contradicts the case note.</li><li>Speed up the Lifeline phone and ask about Part 2 consent. Because: Open referral and a restricted record.</li></ol>
+<p><b>Call and note, who to call in order:</b></p><ul><li>Order 1: Robin W., case worker at Bridgeway Center shelter, (419) 555-0115. Valid, last reached 2 Nov. Authorized: Yes, release signed 2 Nov. Best time: 10 am to 4 pm.</li><li>Order 2: Courtney, prepaid phone, (419) 555-0106. Valid, but minutes often run out, so text first. Authorized: Yes. Best time: Text first.</li></ul>
+<p><b>Call agenda:</b></p><ol><li>How are you doing? Safety check</li><li>Do you still have your quetiapine and lamotrigine?</li><li>Rebook psychiatry as a telehealth visit this week</li><li>Confirm the shelter address and talk about housing help</li><li>Lifeline phone, and consent for the substance use team if she wants it</li></ol>
+<p><b>Note fields:</b> AI drafts only what it can cite (shown amber until the nurse confirms); fields marked clinician-only are never pre-filled. Signing unlocks once every AI field is confirmed and files the note to the assessment, care plan, contact note and quality record.</p><ul><li>Current address [AI draft]: Bridgeway Center shelter, from the 2 Nov case note. Replaces the apartment address. (source: N-4101)</li><li>Follow-up appointment [AI draft]: Telehealth psychiatry with Dr. Hashmi, date to confirm. (source: AP-4101)</li><li>Medicines on hand [AI draft]: Quetiapine 200 mg and lamotrigine 100 mg filled 28 Oct. (source: R-4102)</li><li>Safety assessment [clinician only]: left blank for the nurse (source: Clinician only, never pre-filled)</li><li>Part 2 consent [clinician only]: left blank for the nurse (source: Her decision, recorded by the clinician)</li></ul>
+<h3>Yu-Lan Chen (81F, MBR2509536, Bluestem D-SNP (Medicare and Medicaid))</h3>
+<p>Program: Complex care management, dementia. Language: Mandarin (member), English (daughter). PCP: Dr. Nadia Leung, Cedar Hollow Senior Care (speaks Mandarin) (Verified by MCheck Directory Accuracy, 20 Sep). Representative: Daughter Karen Chen, HIPAA authorization on file. Last contact: 2 Nov, with her daughter.</p>
+<p><b>Deadlines:</b> Medicaid renewal: By 30 Nov (21 days left); PCP visit after fall: Booked 19 Nov (ED asked for within a week); High-risk medicines in older adults (HEDIS): By 31 Dec (Zolpidem counts against it)</p>
+<p><b>What changed since the last contact (AI summary, every line cited):</b></p><ul><li>She fell at home on 30 Oct and went to the ED at Cedar Hollow General. The alert arrived 39 hours late. No fracture, sodium 131, described as drowsy. <small>(records: A-5001, D-5101)</small></li><li>Zolpidem, a sleeping pill, was started on 25 Oct by an urgent care doctor and is not on her PCP&#x27;s list. At 81 with dementia it is high risk. <small>(records: R-5103)</small></li><li>The personal care aide has billed 7 to 8 hours a week for four weeks, against 20 hours approved. <small>(records: C-5105)</small></li><li>A walker was approved on 1 Oct and has never been delivered. <small>(records: U-5102)</small></li><li>Her daughter said on 2 Nov that she cannot keep this up. Medicaid renewal is due on 30 Nov. <small>(records: K-5103, E-5101)</small></li></ul>
+<p><b>Medicines by source</b> (hospital or ED; pharmacy dispensed; PCP list; conflict):</p><ul><li>Zolpidem: hospital Not mentioned in the ED note; pharmacy New on 25 Oct, urgent care prescriber; PCP Not on PCP list; conflict High High-risk medicine from an outside prescriber; ask: Is she taking the sleeping pill?</li><li>Donepezil: hospital none; pharmacy Filled 15 Oct; PCP Active; conflict none</li><li>Amlodipine: hospital none; pharmacy Filled 15 Oct; PCP Active; conflict none</li></ul>
+<p><b>Timeline (event, and when the plan found out):</b></p><ul><li>1 Oct: Walker approved, never delivered <small>(records: U-5102)</small></li><li>5 Oct to 1 Nov: Aide billed 7 to 8 hours a week (20 approved) <small>(records: C-5105)</small></li><li>25 Oct: Zolpidem filled, urgent care prescriber <small>(records: R-5103)</small></li><li>30 Oct, 18:05: ED visit after a fall at home (received 39 hours later) <small>(records: A-5001)</small></li><li>2 Nov: Call with her daughter about caregiver strain <small>(records: K-5103)</small></li><li>3 Nov: ED note arrived (4 days later) <small>(records: D-5101)</small></li></ul>
+<p><b>Key labs:</b> Sodium 131 mmol/L on 30 Oct, Low, adds to fall risk</p>
+<p><b>Open loops:</b></p><ul><li>Personal care aide hours: 8 of 20 hours a week delivered <small>(records: C-5105)</small></li><li>Walker from CareGear DME: Approved 1 Oct, no delivery after 39 days <small>(records: U-5102)</small></li><li>Medicaid renewal: Due 30 Nov <small>(records: E-5101)</small></li><li>PCP visit: Booked 19 Nov, later than the ED asked</li></ul>
+<p><b>Quality gaps:</b> High-risk medicines in older adults (By 31 Dec); Medication review for older adults (By 31 Dec)</p>
+<p><b>Social needs and caregiver:</b> Caregiver strain score 9 of 16 (high) [stale, 142 days old]. The 2 Nov call suggests it is worse now. Repeat the screen.; Lives with her daughter, who works full time</p>
+<p><b>Source freshness:</b> Hospital alerts: 1 Nov, 39 hours late; Pharmacy fills: 9 Nov, 06:00; Clinical documents: 3 Nov; Home care claims: Up to 1 Nov; Home health claims: 57 days late; Caregiver screen: 20 Jun (142 days)</p>
+<p><b>Next best actions:</b></p><ol><li>Message Dr. Leung about the zolpidem started before the fall and ask for a review. Because: The PCP decides, not the system.</li><li>Call Karen after 7 pm to check on her and offer respite care. Because: Strain in the last call.</li><li>Raise the missing aide hours with Gentle Path Home Care. Because: Approved but not delivered.</li><li>Chase CareGear DME about the walker. Because: Approved but not delivered.</li><li>Start the Medicaid renewal with Karen and ask for an earlier PCP slot. Because: Coverage at risk.</li></ol>
+<p><b>Call and note, who to call in order:</b></p><ul><li>Order 1: Karen Chen, daughter and authorized representative, (419) 555-0137. Mobile, valid, last reached 2 Nov. Authorized: Yes, HIPAA form on file. Best time: After 7 pm.</li><li>Order 3: Yu-Lan, landline, (419) 555-0153. Valid, but she cannot complete an assessment. Authorized: Yes. Best time: n/a.</li></ul>
+<p><b>Call agenda:</b></p><ol><li>How is your mother since the fall? Sleep, drowsiness?</li><li>Is she taking the sleeping pill from urgent care? We have asked Dr. Leung to review it</li><li>The aide is coming 8 of 20 hours, and we are raising it with the agency</li><li>Walker delivery</li><li>How are you doing? Respite options and the Medicaid renewal by 30 Nov</li></ol><p>Speak with Karen in English. If Yu-Lan joins the call, add a Mandarin interpreter.</p>
+<p><b>Note fields:</b> AI drafts only what it can cite (shown amber until the nurse confirms); fields marked clinician-only are never pre-filled. Signing unlocks once every AI field is confirmed and files the note to the assessment, care plan, contact note and quality record.</p><ul><li>Fall since last contact [AI draft]: 30 Oct, ED at Cedar Hollow General, no fracture, bruised hip. (source: D-5101)</li><li>Medication review request [AI draft]: Zolpidem started 25 Oct by urgent care, sent to the PCP after the fall. (source: R-5103)</li><li>Services delivered against approved [AI draft]: Aide 8 of 20 hours a week. Walker not delivered. Both escalated. (source: C-5105, U-5102)</li><li>Caregiver strain screen [clinician only]: left blank for the nurse (source: Clinician completes with the daughter)</li><li>Medicaid renewal [AI draft]: Due 30 Nov, started with the daughter. (source: E-5101)</li></ul>
+<h3>Felicia Nwosu (58F, MBR4307859, Bluestem Medicaid)</h3>
+<p>Program: Diabetes, rising risk. Language: English. PCP: Dr. Daniel Raman, Pinecrest Health Center (Verified by MCheck Directory Accuracy, 15 Aug). Representative: None. Last contact: Never reached, 3 attempts.</p>
+<p><b>Deadlines:</b> Diabetes quality gaps: By 31 Dec (3 open); PCP visit: None since January (10 months); Approval resubmission: Not started (Denied 13 Aug)</p>
+<p><b>What changed since the last contact (AI summary, every line cited):</b></p><ul><li>There was no hospital event. She came up because of pharmacy and lab data, not an alert.</li><li>Her HbA1c on 20 Oct was 80 mmol/mol, which is 9.5% after unit conversion. It was 7.1% in January. <small>(records: L-2102)</small></li><li>Empagliflozin stopped in August because the pharmacy rejected it pending prior authorization, and the renewal was denied. Nobody resubmitted it. <small>(records: R-2103, U-2101)</small></li><li>Her statin and blood pressure medicines are filled on time, so this looks like an access problem rather than motivation. <small>(records: R-2104)</small></li><li>Three daytime calls went unanswered. She works nights and has opted in to texts. <small>(records: K-2103, S-2101)</small></li></ul>
+<p><b>Medicines by source</b> (hospital or ED; pharmacy dispensed; PCP list; conflict):</p><ul><li>Empagliflozin: hospital none; pharmacy Last filled 12 Jul, rejected 11 Aug for prior authorization; PCP Active; conflict Medium Access gap after a denial; ask: Did the pharmacy turn you away? Cost?</li><li>Metformin ER: hospital none; pharmacy Last filled 28 Jun, none seen since; PCP Active; conflict Medium Gap, or paying cash; ask: Are you buying it somewhere else?</li><li>Atorvastatin and lisinopril: hospital none; pharmacy Filled 30 Aug, 90 days; PCP Active; conflict none</li></ul>
+<p><b>Timeline (event, and when the plan found out):</b></p><ul><li>14 Jan: PCP visit, HbA1c 7.1% <small>(records: L-2102)</small></li><li>12 Jul: Last empagliflozin fill <small>(records: R-2103)</small></li><li>11 Aug: Pharmacy rejection, prior authorization needed <small>(records: R-2103)</small></li><li>13 Aug: Prior authorization renewal denied <small>(records: U-2101)</small></li><li>20 Oct: Urgent care visit, HbA1c 80 mmol/mol (lab received 8 days later) <small>(records: L-2102)</small></li><li>3 to 5 Nov: Three unanswered daytime calls <small>(records: K-2103)</small></li></ul>
+<p><b>Key labs:</b> HbA1c 80 mmol/mol, shown as 9.5% on 20 Oct, Up from 7.1% in January; Glucose (random) 286 mg/dL on 20 Oct, High</p>
+<p><b>Open loops:</b></p><ul><li>Empagliflozin prior authorization: Denied 13 Aug, never resubmitted <small>(records: U-2101)</small></li><li>PCP visit: None since January</li></ul>
+<p><b>Quality gaps:</b> Blood sugar control (HbA1c over 9%) (By 31 Dec); Diabetic eye exam (By 31 Dec); Kidney health check (By 31 Dec)</p>
+<p><b>Social needs and caregiver:</b> Works 2 jobs including nights; says medicines cost too much [stale, 272 days old]. Explains the missed calls and the medicine gap.</p>
+<p><b>Source freshness:</b> Pharmacy fills: 9 Nov, 06:00; Labs: 28 Oct; Medical claims: Up to 20 Oct; Risk model: 1 Nov, 0.35 to 0.62; Social screen: 10 Feb (272 days)</p>
+<p><b>Next best actions:</b></p><ol><li>Text at 3 pm and call between 4 and 6 pm. Because: Daytime calls failed; she works nights.</li><li>Ask Dr. Raman to resubmit the empagliflozin approval or switch to a covered drug. Because: Gap began with the denial.</li><li>Book a PCP visit. Because: HbA1c 9.5%.</li><li>Add the eye exam and kidney check to the same visit. Because: Open quality gaps.</li></ol>
+<p><b>Call and note, who to call in order:</b></p><ul><li>Order 1: Felicia, (419) 555-0154. Mobile, valid, opted in to texts. Authorized: Yes. Best time: Text 3 pm, call 4 to 6 pm.</li></ul>
+<p><b>Call agenda:</b></p><ol><li>Start with access: the pharmacy stopped your Jardiance in August, what happened?</li><li>Metformin: where do you get it?</li><li>Book a PCP visit, the HbA1c is high</li><li>Eye exam and kidney test at the same visit</li><li>Best time and way to reach her from now on</li></ol>
+<p><b>Note fields:</b> AI drafts only what it can cite (shown amber until the nurse confirms); fields marked clinician-only are never pre-filled. Signing unlocks once every AI field is confirmed and files the note to the assessment, care plan, contact note and quality record.</p><ul><li>Reason for the medicine gap [AI draft]: Empagliflozin stopped after the August approval denial. Cost worry. (source: R-2103, U-2101)</li><li>Latest HbA1c [AI draft]: 9.5% (80 mmol/mol) on 20 Oct, up from 7.1%. (source: L-2102)</li><li>Preferred contact [AI draft]: Text after 3 pm, works nights. (source: S-2101, K-2103)</li><li>Her own goals [clinician only]: left blank for the nurse (source: Clinician asks on the call)</li></ul>
+<h2>Team lead screen</h2><ul><li>Maria C., RN: Heart failure, complex care; licensed in OH, KY; speaks English; 48 of 50 cases; 5 new signals; 3 high acuity.</li><li>Ana R., RN: Heart failure, transitions; licensed in OH; speaks English, Spanish; 36 of 50 cases; 2 new signals; 1 high acuity.</li><li>Wei L., RN: Complex care, dementia; licensed in OH, PA; speaks English, Mandarin; 41 of 50 cases; 1 new signals; 1 high acuity.</li><li>James O., LCSW: Behavioral health; licensed in OH, MI; speaks English; 27 of 40 cases; 1 new signals; 1 high acuity.</li><li>Priya S., RN: Diabetes, complex care; licensed in OH, IN; speaks English, Hindi; 31 of 50 cases; 1 new signals; 0 high acuity.</li><li>Dana K., RN: Transitions of care; licensed in OH; speaks English; 84 of 90 cases; 7 new signals; 2 high acuity.</li></ul><p>Routing suggestions, matched on language, state license, program, acuity and capacity; the supervisor decides:</p><ul><li>New referral: heart failure discharge from Cedar Hollow General, Spanish speaking, Ohio. Suggested owner: Ana R., RN. Why: Speaks Spanish, licensed in Ohio, heart failure program, 36 of 50 cases. Trade-off: Maria C. is at 48 of 50.</li><li>Move Yu-Lan Chen from Maria C. to Wei L.. Suggested owner: Wei L., RN. Why: Speaks Mandarin with the member, dementia program, 41 of 50 cases. Daughter stays the main contact. Trade-off: Keeps Maria under capacity.</li><li>Make James O. the behavioral health care manager for Courtney Stanton. Suggested owner: James O., LCSW. Why: Behavioral health caseload, 27 of 40 cases. C. Ellison stays on as her counselor. Trade-off: Maria stays on for physical health.</li></ul>
+<h2>About: principles and safeguards</h2><ul>
+<li>Fast sources first: hospital alerts and pharmacy fills arrive in hours, claims in 30 to 90 days, so claims are used only for history.</li>
+<li>Conflicts are shown side by side and never settled automatically.</li>
+<li>Every fact carries a source and a date; stale data is labelled; any record can be reported wrong, which sends a data quality ticket to MCheck.</li>
+<li>The queue runs on rules anyone can read; a predictive model may add to them after the pilot.</li>
+<li>Automated: merging duplicate alerts, linking records at 95% match or above, extracting medicine changes and barriers from documents with quotes, cited summaries, pre-filling citable note fields, ranking numbers and logging outcomes. The nurse decides: matches below 95%, the medicine list and clinical advice, what to do, safety, observations and goals, who to call and what to say.</li>
+<li>Left out on purpose: a predictive model in the ranking, automated calls or texts to members, a member app, home monitoring devices (later pilot).</li>
+<li>Before and after for Lloyd: preparing the call takes about 16 minutes across seven systems today and about 6 minutes on one screen, about 99 minutes back per day across roughly 10 members. The time model moves real conversations from about 2 to about 5 or 6 a day.</li></ul>
+</article>
+<main id="main"></main>
+<div class="toast" id="toast"></div>
+<div class="pop" id="pop"><div class="box" id="popBox"></div></div>
+
+<script>
+try{document.getElementById("text-version").hidden=true}catch(e){}
+// All people, IDs and numbers are fictional and match the synthetic data annex.
+const SIGNALS = [
+  ["Discharged or ED visit in the last 7 days",25],
+  ["Care deadline within 2 business days, or already missed",20],
+  ["Medication safety conflict for a clinician to review",20],
+  ["Critical medicine not picked up, or a gap over 30 days",15],
+  ["No follow-up booked, missed, or booked too late",15],
+  ["3 or more acute visits in 90 days",10],
+  ["New event since the last successful contact",10],
+  ["Not reached for more than 21 days",10],
+  ["Open social or caregiver barrier",5],
+  ["Risk score up 0.20 or more in 3 months",5],
+];
+const SRC = {
+ "A-1001":["Hospital alert (ADT)","Health information exchange","4 Nov, 22:15","4 Nov, 22:31","Admitted to Cedar Hollow General Hospital, inpatient, for shortness of breath. A duplicate copy of this alert arrived at 03:02 and was merged automatically.",""],
+ "A-1004":["Hospital alert (ADT)","Health information exchange","7 Nov, 14:10","7 Nov, 14:25","Discharged home. The alert carries no diagnosis. CMS only requires the patient, practitioner and hospital name, so the reason comes from the discharge summary.",""],
+ "D-1101":["Discharge summary","Health information exchange, Cedar Hollow General","Stay 4 to 7 Nov","8 Nov, 09:12","Acute on chronic systolic heart failure, ejection fraction 25%, with acute kidney injury. Medication changes extracted by MCheck Clinical.","Lisinopril (STOP, AKI). Metformin (HOLD until renal recheck). Spironolactone 25 mg daily (NEW). Furosemide 40 mg BID (increased from 20 mg daily)."],
+ "R-1101":["Pharmacy claim","Pharmacy benefit manager, daily file","Filled 20 Oct","9 Nov, 06:00 batch","Lisinopril 10 mg daily, 90 day supply from Ashby Falls Pharmacy. Supply lasts until 18 Jan.",""],
+ "R-1102":["Pharmacy claim","Pharmacy benefit manager, daily file","Filled 15 Sep","9 Nov, 06:00 batch","Furosemide 20 mg daily, 30 day supply. Ran out on 15 Oct. No refill since.",""],
+ "R-1105":["Pharmacy, no claim found","Pharmacy benefit manager, daily file","Since discharge","9 Nov, 06:00 batch","No paid claim for spironolactone or the new furosemide dose since discharge on 7 Nov at 14:10.",""],
+ "N-1101":["Case note","Care management system","12 Oct","12 Oct","Your heart failure program call.","Ankle swelling for a week, weight not tracked, no scale at home. Wife manages pills. Task: order scale."],
+ "L-1105":["Lab results","Health information exchange, Cedar Hollow General","4 and 6 Nov","8 Nov","Potassium 4.9 mmol/L (range 3.5 to 5.1). eGFR 31. Creatinine 2.1, up from 1.4 in June. Units checked by MCheck Clinical.",""],
+ "U-1101":["Prior authorization","Utilization management system","Requested 7 Nov","7 Nov","Home health skilled nursing, 8 visits in 30 days, Evergreen Home Health. Status code PEND-CI means the plan has asked the hospital for clinical information. It has waited over the weekend.",""],
+ "AP-1101":["Appointments feed","Hawthorn Family Clinic (connected)","None found","9 Nov, 05:00","No visit booked. This clinic shares its schedule, so none really means none. The cardiology clinic does not share, so its status is unknown.",""],
+ "A-3005":["Hospital alert (ADT)","Health information exchange","7 Nov, 23:50","8 Nov, 00:12","ED registration at St. Ambrose Hospital for an asthma attack, discharged 8 Nov at 04:20. The phone number given at registration, (419) 555-0124, differs from the one in the member file.",""],
+ "D-3101":["ED note","Health information exchange, St. Ambrose","7 to 8 Nov","8 Nov, 11:40","Asthma exacerbation. Prednisone for 5 days, albuterol refill, see PCP in 3 to 5 days.","ran out of the purple inhaler, too expensive ... staying with sister on Tanner St"],
+ "R-3106":["Pharmacy claims (4)","Pharmacy benefit manager, daily file","23 Aug, 19 Sep, 10 Oct, 8 Nov","9 Nov, 06:00","Albuterol rescue inhaler at Wellway Pharmacy #313, four fills in 90 days. The controller inhaler was last filled on 30 May.",""],
+ "K-3107":["Contact history","Dialler log","11 Oct to 5 Nov","Real time","Four calls to (419) 555-0143 returned number not in service. Phone validation marked it disconnected on 21 Oct, and three of the calls came after that.",""],
+ "N-3101":["Case note","Care management system","5 Nov","5 Nov","","Consider unable to reach closure after 30 days per policy."],
+ "A-3001":["Hospital alerts, not linked (2)","Health information exchange","22 Aug and 27 Oct","Same day","Two ED visits at Elmhurst Medical Center registered under the hospital's own record number as WHITLOCK, TRAV with an old address and no phone. Match score 88% on name, birth date and address. Records below 95% are never linked automatically.",""],
+ "A-4002":["Hospital alert (ADT)","Health information exchange","28 Oct, 11:00","28 Oct, 11:45","Discharged from Anchor Behavioral Health after an inpatient stay from 20 to 28 Oct. Reason withheld by the facility. Disposition says home, but the address on file is the apartment she was evicted from.",""],
+ "D-4101":["Discharge summary, not received","Health information exchange request","Requested 29 Oct","Not received","The facility does not share behavioral health records without consent. A new request goes out every 72 hours.",""],
+ "AP-4101":["Appointments feed","Crossroads Behavioral Health (connected)","3 Nov, 10:00","4 Nov","Psychiatry follow-up with Dr. R. Hashmi: no-show. Intensive outpatient intake on 5 Nov was cancelled because she could not be reached. A no-show never appears in claims.",""],
+ "N-4101":["Case note, behavioral health counselor","Care management system","2 Nov","2 Nov","C. Ellison, LCSW, three-way call through the shelter case worker.","Evicted in September, staying at Bridgeway Center shelter. Agreed to psychiatry on 3 Nov at 10:00. Phone runs out of minutes, Lifeline phone referral pending."],
+ "R-4102":["Pharmacy claims","Pharmacy benefit manager, daily file","28 Oct","9 Nov, 06:00","Quetiapine 200 mg and lamotrigine 100 mg, 30 days each, from the Anchor outpatient pharmacy. An earlier quetiapine gap from 1 Sep to 20 Oct came before the admission.",""],
+ "S-4101":["Social needs screen","Medicaid screening","15 Apr","15 Apr","Housing recorded as stable, in an apartment. Food insecure. Prepaid phone often out of minutes. Now 208 days old and contradicted by the 2 Nov case note.",""],
+ "A-5001":["Hospital alert (ADT)","Health information exchange","30 Oct, 18:05","1 Nov, 09:30","ED registration at Cedar Hollow General after a fall at home. The alert arrived about 39 hours late in a weekend batch.",""],
+ "D-5101":["ED note","Health information exchange, Cedar Hollow General","30 Oct","3 Nov, 08:05","Fall with right hip bruising. X-ray and head CT negative. Sodium 131. PCP within one week, physical therapy evaluation, home safety review.","patient drowsy, family reports poor sleep"],
+ "R-5103":["Pharmacy claim","Pharmacy benefit manager, daily file","25 Oct","26 Oct","Zolpidem 10 mg at bedtime, 30 days, prescribed by Dr. A. Keller at Parkside Urgent Care, not by her PCP. The Beers Criteria advise against it in older adults because of falls.",""],
+ "C-5105":["Medicaid home care claims (4 weeks)","Claims","5 Oct to 1 Nov","14 Oct to 4 Nov","Personal care billed at 32, 32, 28 and 32 units a week (7 to 8 hours) against 80 units (20 hours) authorized for Gentle Path Home Care.",""],
+ "U-5102":["Prior authorization","Utilization management system","Approved 1 Oct","1 Oct","Walker with wheels from CareGear DME. No delivery claim after 39 days.",""],
+ "K-5103":["Contact history","Care management system","2 Nov, 19:45","2 Nov","Call with daughter Karen, the authorized representative, 20 minutes.","Mom not sleeping, up at night. The aide only comes some days. I can't keep doing this."],
+ "E-5101":["Eligibility","Enrollment file","Recertification due 30 Nov","8 Nov","Full dual eligible in a D-SNP. If Medicaid lapses on 30 Nov, the personal care hours stop.",""],
+ "L-2102":["Lab result","Urgent care lab","20 Oct","28 Oct","HbA1c reported as 80 mmol/mol (IFCC units). MCheck Clinical converted it to 9.5% so it trends correctly against 7.1% from January. Without that step the chart would read 7.1 then 80.",""],
+ "R-2103":["Pharmacy claim, rejected","Pharmacy benefit manager, daily file","11 Aug","12 Aug","Empagliflozin 10 mg rejected with code 75, prior authorization required. Last paid fill was 12 Jul.",""],
+ "U-2101":["Prior authorization","Utilization management system","Denied 13 Aug","13 Aug","Renewal denied because step therapy documentation was missing. The prescriber never resubmitted.",""],
+ "R-2104":["Pharmacy claims","Pharmacy benefit manager, daily file","30 Aug","31 Aug","Atorvastatin and lisinopril filled on time for 90 days. Metformin last filled 28 Jun. She may be paying cash with a discount card, which the plan cannot see.",""],
+ "K-2103":["Contact history","Dialler log","3 to 5 Nov","Real time","Three calls at 14:00, 10:30 and 11:15 with no answer or a full voicemail. She opted in to texts, but no text was sent.",""],
+ "S-2101":["Social needs screen","Medicaid screening","10 Feb","10 Feb","","Works 2 jobs including a warehouse night shift. Medicines cost too much."],
+ "P-3001":["Provider directory","MCheck Directory Accuracy","Checked 2 Nov","2 Nov","Elmhurst Primary Care moved in 2026. The listed phone reaches the old building. Directory Accuracy marks this listing as outdated and suggests the new number (419) 555-0188.",""],
+};
+const P = {
+ p1:{name:"Lloyd Thornton",age:78,sex:"M",mid:"MBR3853149",cov:"Bluestem MA-HMO",program:"Heart failure care management",lang:"English",
+  pcp:"Dr. Lucia Ibarra, Hawthorn Family Clinic",pcpTag:"Verified by MCheck Directory Accuracy, 1 Sep",rep:"Wife Marilyn, manages his pills (verbal permission each call)",last:"12 Oct, connected",
+  flags:[1,1,1,1,1,0,1,0,1,0],
+  chips:[["Discharged Saturday, heart failure","event"],["New medicines not picked up","med"],["Lisinopril stopped but still at home","med"],["Follow-up call due Tue","due"]],
+  best:"Before noon",due:"Tue 10 Nov",slot:["08:30","Call Lloyd and Marilyn about his medicines"],
+  deadlines:[["Post-discharge call","Due Tue 10 Nov","2 business days after discharge","crit"],["PCP visit and blood test","By 14 Nov","Day 2 of 7","warn"],["Medication reconciliation (HEDIS)","By 7 Dec","30 days after discharge","info"]],
+  summary:[
+   ["Admitted 4 to 7 Nov at Cedar Hollow General with heart failure (ejection fraction 25%) and a kidney injury.",["A-1001","A-1004","D-1101"]],
+   ["Four medicines changed at discharge: furosemide doubled to twice daily, spironolactone started, lisinopril stopped, metformin on hold.",["D-1101"]],
+   ["None of the new or changed medicines had been picked up by 06:00 today. Lisinopril and metformin are still at home.",["R-1101","R-1105"]],
+   ["His furosemide ran out on 15 Oct, three weeks before he was admitted. On 12 Oct you noted ankle swelling and no scale.",["R-1102","N-1101"]],
+   ["Potassium is 4.9 on the new spironolactone and eGFR is 31, so he needs a blood test this week.",["L-1105"]],
+   ["Home health approval has been stuck since Saturday, and no PCP visit is booked.",["U-1101","AP-1101"]],
+  ],
+  timeline:[["12 Oct","Your call: ankle swelling, no scale at home","contact","N-1101",""],["15 Oct","Furosemide supply ran out","med","R-1102",""],["20 Oct","Lisinopril filled for 90 days","med","R-1101",""],["4 Nov, 22:15","Admitted to Cedar Hollow General, duplicate alert merged","event","A-1001","received 16 min later"],["7 Nov, 14:10","Discharged home, no diagnosis in the alert","event","A-1004","received 15 min later"],["7 Nov","Home health approval requested, still pending","social","U-1101",""],["8 Nov, 09:12","Discharge summary arrived","event","D-1101","19 hours after discharge"]],
+  meds:[["Lisinopril","Stop (kidney injury)","Filled 20 Oct, 90 days at home","Active","Stopped but still at home","High","Has he stopped it? Where is the bottle?"],["Metformin","Hold until kidney recheck","Filled 1 Oct, 90 days","Active","Held but still at home","High","Is he still taking it?"],["Furosemide","40 mg twice daily","20 mg daily, ran out 15 Oct, new dose not filled","20 mg daily","New dose not dispensed","High","Which water pill, and how often?"],["Spironolactone","25 mg daily, new","No claim","None","New medicine not dispensed","High","Does he have it?"],["Metoprolol succinate","Continue 50 mg","Filled 1 Oct, 90 days","50 mg","","",""]],
+  labs:[["BNP","1,450 pg/mL","4 Nov","Very high (normal under 100)"],["Creatinine","2.1 mg/dL","4 Nov","Up from 1.4 in June"],["eGFR","31","4 Nov","Stage 3b kidney function"],["Potassium","4.9 mmol/L","6 Nov","High normal on new spironolactone"]],
+  loops:[["Home health nursing approval","Pending 2 days, code PEND-CI (plan asked the hospital for information)","warn","U-1101"],["Scale order, your task from 12 Oct","Open for 28 days","bad","N-1101"],["PCP visit within 7 days of discharge","Not booked, due 14 Nov","bad","AP-1101"]],
+  gaps:[["Medication reconciliation after discharge","By 7 Dec"],["Patient engagement after discharge","By 7 Dec"]],
+  social:[["Wife (82) manages pills and drives","252 days old",1,"The hospital note says his wife now has trouble walking, so the transport answer may be wrong."]],
+  fresh:[["Hospital alerts","7 Nov, 14:25","g"],["Pharmacy fills","9 Nov, 06:00","g"],["Clinical documents","8 Nov, 09:12","g"],["Labs","8 Nov","g"],["Medical claims","Up to 8 Oct (32 days)","a"],["Risk model","1 Nov, before admission","a"],["Social screen","2 Mar (252 days)","r"]],
+  nba:[["Call Lloyd and Marilyn before noon and go through the four changed medicines","Follow-up call due Tuesday; discharge medicines differ from pharmacy records",1],["Arrange same-day delivery of spironolactone and the new furosemide dose","No fill by 06:00 today, about 40 hours after discharge",0],["Call utilization management to clear the home health approval","Pending over the weekend",0],["Book a PCP visit and blood test by 14 Nov","Nothing booked; potassium 4.9",0],["Order a scale and teach daily weights","Your task has been open for 28 days",0]],
+  contacts:[[1,"Lloyd, with wife Marilyn on speaker","(419) 555-0136","Mobile, valid, last reached 12 Oct","Yes (wife: verbal each call)","Mornings",""]],
+  agenda:["Breathing, swelling, and today's weight if he has a scale","Go bottle by bottle: stop lisinopril, hold metformin, start spironolactone, furosemide 40 mg twice a day","Offer same-day delivery of the new medicines","Book PCP visit and blood test this week","Daily weights: call if up 2 lb in a day or 5 lb in a week"],
+  fields:[["Medication reconciliation (HEDIS)","Done with member and wife. Lisinopril stopped, metformin held, spironolactone 25 mg and furosemide 40 mg twice daily started.","D-1101 and pharmacy","ai"],["Discharge instructions understood","Daily weights. Call if up 2 lb in a day or 5 lb in a week. 2 g sodium diet.","D-1101","ai"],["Follow-up appointment","PCP at Hawthorn Family Clinic by 14 Nov with blood test.","AP-1101","ai"],["Home health","Skilled nursing approval pending, escalated to utilization management.","U-1101","ai"],["Caregiver","Wife Marilyn present and manages medicines.","N-1101","ai"],["Clinical observations from the call","","Clinician only","rn"]]},
+ p3:{name:"Travis Whitlock",age:39,sex:"M",mid:"MBR1327683",cov:"Bluestem Medicaid",program:"Complex care management, frequent ED use",lang:"English",
+  pcp:"Dr. Farah Bergstrom, Elmhurst Primary Care (never seen)",pcpTag:"Listing outdated per MCheck Directory Accuracy",pcpSrc:"P-3001",rep:"None",last:"Never reached",
+  flags:[1,0,0,1,1,1,1,1,0,0],
+  chips:[["ED visit last night for asthma","event"],["New phone number found","contact"],["5 ED visits in 90 days, 2 unconfirmed","event"],["Rescue inhaler only","med"]],
+  best:"9 to 10 am",due:"Closure review 5 Dec",slot:["09:15","Travis, using the new number"],
+  match:["Two ED records from Elmhurst Medical Center, registered as WHITLOCK, TRAV with an old address, match this member at 88%. Anything under 95% waits for a person to confirm.","A-3001"],
+  deadlines:[["PCP visit after ED","Within 3 to 5 days","Per ED discharge note","crit"],["Unable to reach review","5 Dec","Would close his case","warn"],["Asthma medication ratio (HEDIS)","By 31 Dec","Controller fills needed","info"]],
+  summary:[
+   ["ED visit last night at St. Ambrose for an asthma attack. Sent home at 04:20.",["A-3005"]],
+   ["The ED note says he ran out of his controller inhaler because of the cost, and he is staying with his sister.",["D-3101"]],
+   ["A new phone number was captured at that ED visit. The number on file has been dead since 21 Oct and was still called three more times.",["A-3005","K-3107"]],
+   ["Four albuterol fills in 90 days at Wellway Pharmacy #313 and no controller since May.",["R-3106"]],
+   ["No PCP visit in 18 months, and his case is set for an unable to reach closure.",["N-3101"]],
+  ],
+  timeline:[["22 Aug","ED at Elmhurst, not yet linked (88% match)","event","A-3001",""],["18 Sep","ED at St. Ambrose, asthma","event","",""],["9 Oct","ED at Elmhurst, asthma, prednisone","event","",""],["21 Oct","Number on file found disconnected","contact","K-3107",""],["27 Oct","ED at Elmhurst, back pain, not yet linked (88% match)","event","A-3001",""],["7 Nov, 23:50","ED at St. Ambrose for an asthma attack, new phone captured","event","A-3005","received 22 min later"],["8 Nov","Albuterol refill at Wellway #313","med","R-3106",""]],
+  meds:[["Fluticasone and salmeterol (controller)","ED: restart controller, too expensive","Last filled 30 May","Prescribed","Recommended but not taken (cost)","Medium","Can you afford the purple inhaler?"],["Albuterol (rescue)","Refill","4 fills in 90 days","As needed","Leaning on the rescue inhaler","Medium","How often are you using it?"]],
+  labs:[],
+  loops:[["Unable to reach closure review","Set for 5 Dec. It would drop the member with the most ED visits.","bad","N-3101"],["PCP phone in the directory","The practice moved. MCheck Directory Accuracy suggests the new number.","warn","P-3001"]],
+  gaps:[["Asthma medication ratio","By 31 Dec"],["Adult access to preventive care","By 31 Dec"]],
+  social:[["No social screen on file, he has never been reached","",1,"Ask on the first call about where he is staying, the cost of medicines, and his phone."]],
+  fresh:[["Hospital alerts","8 Nov, 00:12","g"],["Pharmacy fills","9 Nov, 06:00","g"],["Clinical documents","8 Nov, 11:40","g"],["Medical claims","Up to 9 Oct, 2 ED visits missing","a"],["Phone check","21 Oct","a"],["Social screen","None","r"]],
+  nba:[["Confirm or reject the two unlinked ED records","A person decides any match under 95%",1],["Call or text the new number (419) 555-0124 between 9 and 10 am","Fresher number from last night's ED visit",0],["If he does not answer, leave a message with the Wellway pharmacist","He picks up albuterol there every few weeks",0],["Cancel the unable to reach closure","He can be reached now",0],["Ask the PCP about an affordable controller and book a first visit","Rescue-only asthma pattern",0]],
+  contacts:[[1,"Travis, number from the 7 Nov ED visit","(419) 555-0124","Mobile, not yet verified, 1 day old","Yes","Late morning",""],[2,"Wellway Pharmacy #313, sees him every 3 weeks","(419) 555-0155","Valid","Message only, no health details","Next pickup around 1 Dec",""],[3,"Sister, name unknown","Unknown","Mentioned in the ED note","Not authorized","",""],[0,"Travis, number in the member file","(419) 555-0143","Disconnected since 21 Oct","","","dead"]],
+  agenda:["Confirm this is his number and whether texts work better","How is his breathing since the ED visit?","Controller inhaler: find a cheaper option or copay help","Book a first PCP visit and offer transport","Where is he staying? Update the address and do a short social screen"],
+  fields:[["Verified contact number","(419) 555-0124 confirmed with the member and set as primary. Old number retired.","A-3005","ai"],["Asthma control","4 rescue inhaler fills in 90 days, no controller since May, ED visit on 7 Nov.","R-3106, D-3101","ai"],["Barrier","Cannot afford the controller inhaler.","D-3101","ai"],["Address","Staying with his sister, street to confirm.","D-3101","ai"],["Social needs screen (first one)","","Clinician asks on the call","rn"]]},
+ p4:{name:"Courtney Stanton",age:30,sex:"F",mid:"MBR2908397",cov:"Bluestem Medicaid",program:"Behavioral health care management; counselor C. Ellison, LCSW",lang:"English",
+  pcp:"Dr. Joseph Feld, Crossroads Community Health. Psychiatry: Dr. Rahul Hashmi",pcpTag:"Verified by MCheck Directory Accuracy, 1 Oct",rep:"Release on file for Robin W., Bridgeway Center shelter",last:"2 Nov, through the shelter case worker",
+  flags:[0,1,0,0,1,0,1,0,1,0],
+  chips:[["Psychiatric discharge 28 Oct","event"],["7-day follow-up missed","due"],["No-show on 3 Nov","event"],["Evicted, now at a shelter","social"]],
+  best:"10 am to 4 pm through the shelter",due:"Follow-up window closes 27 Nov",slot:["10:30","Courtney, through Robin W. at Bridgeway"],
+  restricted:"One restricted record exists for substance use treatment (42 CFR Part 2). There is no consent on file, so nobody can see what it says. Ask her about consent at the next contact.",
+  deadlines:[["30-day follow-up after psychiatric stay","By 27 Nov","18 days left","crit"],["7-day follow-up","Missed","Was due 4 Nov","warn"],["Discharge summary","Requested 29 Oct","Not received","info"]],
+  summary:[
+   ["Inpatient psychiatric stay from 20 to 28 Oct at Anchor Behavioral Health. The discharge summary was requested on 29 Oct and has not arrived.",["A-4002","D-4101"]],
+   ["She missed the 7-day follow-up: a no-show on 3 Nov, and the intensive outpatient intake was cancelled on 5 Nov. The 30-day window closes on 27 Nov.",["AP-4101"]],
+   ["She was evicted in September and is staying at Bridgeway Center shelter. The address on file and the housing screen are out of date.",["N-4101","S-4101"]],
+   ["Quetiapine and lamotrigine were filled at discharge for 30 days. A quetiapine gap in September came before the admission.",["R-4102"]],
+   ["Her prepaid phone keeps running out of minutes. The shelter case worker is the route that works.",["N-4101"]],
+  ],
+  timeline:[["Sep","Evicted from her apartment (case note)","social","N-4101",""],["1 Sep to 20 Oct","Gap in quetiapine","med","R-4102",""],["20 Oct","Admitted to Anchor Behavioral Health, reason withheld","event","A-4002",""],["28 Oct","Discharged, disposition says home (wrong address)","event","A-4002","received 45 min later"],["28 Oct","Quetiapine and lamotrigine filled","med","R-4102",""],["2 Nov","Three-way call through the shelter case worker","contact","N-4101",""],["3 Nov","Psychiatry no-show","event","AP-4101",""]],
+  meds:[["Quetiapine and lamotrigine","Unknown, summary not received","Filled 28 Oct, 30 days","Quetiapine (July)","Discharge plan unknown","Medium","What did the hospital send you home on?"],["Substance use medicine","Restricted","Restricted","Restricted","No consent on file","","Ask about Part 2 consent"]],
+  labs:[],
+  loops:[["Discharge summary","Requested 29 Oct, not received. Asked again every 72 hours.","warn","D-4101"],["Intensive outpatient program, 12 sessions approved","Not attended, intake cancelled","bad","AP-4101"],["Lifeline phone referral","Open since 2 Nov","warn","N-4101"]],
+  gaps:[["Follow-up after psychiatric stay, 7 days","Missed"],["Follow-up after psychiatric stay, 30 days","By 27 Nov"]],
+  social:[["Housing recorded as stable, in an apartment","208 days old",1,"The 2 Nov case note says she was evicted and is at Bridgeway Center shelter."],["Prepaid phone, often out of minutes","",0,""]],
+  fresh:[["Hospital alerts","28 Oct, 11:45","g"],["Appointments","4 Nov","g"],["Pharmacy fills","9 Nov, 06:00","g"],["Clinical documents","Not received","r"],["Social screen","15 Apr (208 days)","r"],["Medical claims","Up to August, stay not in yet","a"]],
+  nba:[["Call Robin W. at Bridgeway between 10 and 4 to set up a three-way call, and text Courtney","The only route that has worked",1],["Book a telehealth psychiatry visit with Dr. Hashmi this week","30-day window closes 27 Nov",0],["Safety check on the call","Clinician only, never automated",0],["Update her address, repeat the housing screen, refer for housing","Screen contradicts the case note",0],["Speed up the Lifeline phone and ask about Part 2 consent","Open referral and a restricted record",0]],
+  contacts:[[1,"Robin W., case worker at Bridgeway Center shelter","(419) 555-0115","Valid, last reached 2 Nov","Yes, release signed 2 Nov","10 am to 4 pm",""],[2,"Courtney, prepaid phone","(419) 555-0106","Valid, but minutes often run out, so text first","Yes","Text first",""]],
+  agenda:["How are you doing? Safety check","Do you still have your quetiapine and lamotrigine?","Rebook psychiatry as a telehealth visit this week","Confirm the shelter address and talk about housing help","Lifeline phone, and consent for the substance use team if she wants it"],
+  fields:[["Current address","Bridgeway Center shelter, from the 2 Nov case note. Replaces the apartment address.","N-4101","ai"],["Follow-up appointment","Telehealth psychiatry with Dr. Hashmi, date to confirm.","AP-4101","ai"],["Medicines on hand","Quetiapine 200 mg and lamotrigine 100 mg filled 28 Oct.","R-4102","ai"],["Safety assessment","","Clinician only, never pre-filled","rn"],["Part 2 consent","","Her decision, recorded by the clinician","rn"]]},
+ p5:{name:"Yu-Lan Chen",age:81,sex:"F",mid:"MBR2509536",cov:"Bluestem D-SNP (Medicare and Medicaid)",program:"Complex care management, dementia",lang:"Mandarin (member), English (daughter)",
+  pcp:"Dr. Nadia Leung, Cedar Hollow Senior Care (speaks Mandarin)",pcpTag:"Verified by MCheck Directory Accuracy, 20 Sep",rep:"Daughter Karen Chen, HIPAA authorization on file",last:"2 Nov, with her daughter",
+  flags:[0,0,1,0,1,0,0,0,1,0],
+  chips:[["Sleeping pill on 25 Oct, fall on 30 Oct","med"],["Aide came 8 of 20 hours","social"],["Walker never delivered","social"],["Medicaid renewal 30 Nov","due"]],
+  best:"Daughter, after 7 pm",due:"Renewal 30 Nov",slot:["19:15","Call Karen, Yu-Lan's daughter"],
+  deadlines:[["Medicaid renewal","By 30 Nov","21 days left","crit"],["PCP visit after fall","Booked 19 Nov","ED asked for within a week","warn"],["High-risk medicines in older adults (HEDIS)","By 31 Dec","Zolpidem counts against it","info"]],
+  summary:[
+   ["She fell at home on 30 Oct and went to the ED at Cedar Hollow General. The alert arrived 39 hours late. No fracture, sodium 131, described as drowsy.",["A-5001","D-5101"]],
+   ["Zolpidem, a sleeping pill, was started on 25 Oct by an urgent care doctor and is not on her PCP's list. At 81 with dementia it is high risk.",["R-5103"]],
+   ["The personal care aide has billed 7 to 8 hours a week for four weeks, against 20 hours approved.",["C-5105"]],
+   ["A walker was approved on 1 Oct and has never been delivered.",["U-5102"]],
+   ["Her daughter said on 2 Nov that she cannot keep this up. Medicaid renewal is due on 30 Nov.",["K-5103","E-5101"]],
+  ],
+  timeline:[["1 Oct","Walker approved, never delivered","social","U-5102",""],["5 Oct to 1 Nov","Aide billed 7 to 8 hours a week (20 approved)","social","C-5105",""],["25 Oct","Zolpidem filled, urgent care prescriber","med","R-5103",""],["30 Oct, 18:05","ED visit after a fall at home","event","A-5001","received 39 hours later"],["2 Nov","Call with her daughter about caregiver strain","contact","K-5103",""],["3 Nov","ED note arrived","event","D-5101","4 days later"]],
+  meds:[["Zolpidem","Not mentioned in the ED note","New on 25 Oct, urgent care prescriber","Not on PCP list","High-risk medicine from an outside prescriber","High","Is she taking the sleeping pill?"],["Donepezil","","Filled 15 Oct","Active","","",""],["Amlodipine","","Filled 15 Oct","Active","","",""]],
+  labs:[["Sodium","131 mmol/L","30 Oct","Low, adds to fall risk"]],
+  loops:[["Personal care aide hours","8 of 20 hours a week delivered","bad","C-5105",40],["Walker from CareGear DME","Approved 1 Oct, no delivery after 39 days","bad","U-5102"],["Medicaid renewal","Due 30 Nov","warn","E-5101"],["PCP visit","Booked 19 Nov, later than the ED asked","warn",""]],
+  gaps:[["High-risk medicines in older adults","By 31 Dec"],["Medication review for older adults","By 31 Dec"]],
+  social:[["Caregiver strain score 9 of 16 (high)","142 days old",1,"The 2 Nov call suggests it is worse now. Repeat the screen."],["Lives with her daughter, who works full time","",0,""]],
+  fresh:[["Hospital alerts","1 Nov, 39 hours late","a"],["Pharmacy fills","9 Nov, 06:00","g"],["Clinical documents","3 Nov","g"],["Home care claims","Up to 1 Nov","g"],["Home health claims","57 days late","r"],["Caregiver screen","20 Jun (142 days)","a"]],
+  nba:[["Message Dr. Leung about the zolpidem started before the fall and ask for a review","The PCP decides, not the system",1],["Call Karen after 7 pm to check on her and offer respite care","Strain in the last call",0],["Raise the missing aide hours with Gentle Path Home Care","Approved but not delivered",0],["Chase CareGear DME about the walker","Approved but not delivered",0],["Start the Medicaid renewal with Karen and ask for an earlier PCP slot","Coverage at risk",0]],
+  contacts:[[1,"Karen Chen, daughter and authorized representative","(419) 555-0137","Mobile, valid, last reached 2 Nov","Yes, HIPAA form on file","After 7 pm",""],[3,"Yu-Lan, landline","(419) 555-0153","Valid, but she cannot complete an assessment","Yes","","dim"]],
+  agendaNote:"Speak with Karen in English. If Yu-Lan joins the call, add a Mandarin interpreter.",
+  agenda:["How is your mother since the fall? Sleep, drowsiness?","Is she taking the sleeping pill from urgent care? We have asked Dr. Leung to review it","The aide is coming 8 of 20 hours, and we are raising it with the agency","Walker delivery","How are you doing? Respite options and the Medicaid renewal by 30 Nov"],
+  fields:[["Fall since last contact","30 Oct, ED at Cedar Hollow General, no fracture, bruised hip.","D-5101","ai"],["Medication review request","Zolpidem started 25 Oct by urgent care, sent to the PCP after the fall.","R-5103","ai"],["Services delivered against approved","Aide 8 of 20 hours a week. Walker not delivered. Both escalated.","C-5105, U-5102","ai"],["Caregiver strain screen","","Clinician completes with the daughter","rn"],["Medicaid renewal","Due 30 Nov, started with the daughter.","E-5101","ai"]]},
+ p2:{name:"Felicia Nwosu",age:58,sex:"F",mid:"MBR4307859",cov:"Bluestem Medicaid",program:"Diabetes, rising risk",lang:"English",
+  pcp:"Dr. Daniel Raman, Pinecrest Health Center",pcpTag:"Verified by MCheck Directory Accuracy, 15 Aug",rep:"None",last:"Never reached, 3 attempts",
+  flags:[0,0,0,1,0,0,0,0,1,1],
+  chips:[["No hospital event, found by the rules","grey"],["HbA1c about 9.5%, was 7.1%","med"],["Diabetes medicine stopped after an approval denial","med"],["Works nights","contact"]],
+  best:"Text at 3 pm, call 4 to 6 pm",due:"Quality gaps by 31 Dec",slot:["15:00","Text Felicia, then call at 16:30"],
+  deadlines:[["Diabetes quality gaps","By 31 Dec","3 open","info"],["PCP visit","None since January","10 months","warn"],["Approval resubmission","Not started","Denied 13 Aug","warn"]],
+  summary:[
+   ["There was no hospital event. She came up because of pharmacy and lab data, not an alert.",[]],
+   ["Her HbA1c on 20 Oct was 80 mmol/mol, which is 9.5% after unit conversion. It was 7.1% in January.",["L-2102"]],
+   ["Empagliflozin stopped in August because the pharmacy rejected it pending prior authorization, and the renewal was denied. Nobody resubmitted it.",["R-2103","U-2101"]],
+   ["Her statin and blood pressure medicines are filled on time, so this looks like an access problem rather than motivation.",["R-2104"]],
+   ["Three daytime calls went unanswered. She works nights and has opted in to texts.",["K-2103","S-2101"]],
+  ],
+  timeline:[["14 Jan","PCP visit, HbA1c 7.1%","event","L-2102",""],["12 Jul","Last empagliflozin fill","med","R-2103",""],["11 Aug","Pharmacy rejection, prior authorization needed","med","R-2103",""],["13 Aug","Prior authorization renewal denied","med","U-2101",""],["20 Oct","Urgent care visit, HbA1c 80 mmol/mol","event","L-2102","lab received 8 days later"],["3 to 5 Nov","Three unanswered daytime calls","contact","K-2103",""]],
+  meds:[["Empagliflozin","","Last filled 12 Jul, rejected 11 Aug for prior authorization","Active","Access gap after a denial","Medium","Did the pharmacy turn you away? Cost?"],["Metformin ER","","Last filled 28 Jun, none seen since","Active","Gap, or paying cash","Medium","Are you buying it somewhere else?"],["Atorvastatin and lisinopril","","Filled 30 Aug, 90 days","Active","","",""]],
+  labs:[["HbA1c","80 mmol/mol, shown as 9.5%","20 Oct","Up from 7.1% in January"],["Glucose (random)","286 mg/dL","20 Oct","High"]],
+  loops:[["Empagliflozin prior authorization","Denied 13 Aug, never resubmitted","bad","U-2101"],["PCP visit","None since January","warn",""]],
+  gaps:[["Blood sugar control (HbA1c over 9%)","By 31 Dec"],["Diabetic eye exam","By 31 Dec"],["Kidney health check","By 31 Dec"]],
+  social:[["Works 2 jobs including nights; says medicines cost too much","272 days old",1,"Explains the missed calls and the medicine gap."]],
+  fresh:[["Pharmacy fills","9 Nov, 06:00","g"],["Labs","28 Oct","g"],["Medical claims","Up to 20 Oct","a"],["Risk model","1 Nov, 0.35 to 0.62","g"],["Social screen","10 Feb (272 days)","r"]],
+  nba:[["Text at 3 pm and call between 4 and 6 pm","Daytime calls failed; she works nights",1],["Ask Dr. Raman to resubmit the empagliflozin approval or switch to a covered drug","Gap began with the denial",0],["Book a PCP visit","HbA1c 9.5%",0],["Add the eye exam and kidney check to the same visit","Open quality gaps",0]],
+  contacts:[[1,"Felicia","(419) 555-0154","Mobile, valid, opted in to texts","Yes","Text 3 pm, call 4 to 6 pm",""]],
+  agenda:["Start with access: the pharmacy stopped your Jardiance in August, what happened?","Metformin: where do you get it?","Book a PCP visit, the HbA1c is high","Eye exam and kidney test at the same visit","Best time and way to reach her from now on"],
+  fields:[["Reason for the medicine gap","Empagliflozin stopped after the August approval denial. Cost worry.","R-2103, U-2101","ai"],["Latest HbA1c","9.5% (80 mmol/mol) on 20 Oct, up from 7.1%.","L-2102","ai"],["Preferred contact","Text after 3 pm, works nights.","S-2101, K-2103","ai"],["Her own goals","","Clinician asks on the call","rn"]]},
+};
+const FEED=[["Sat 14:25","Hospital alert","Lloyd Thornton discharged from Cedar Hollow General, no diagnosis in the alert"],["Sun 00:12","Hospital alert","Travis Whitlock seen in the ED at St. Ambrose, new phone number captured"],["Sun 09:12","Document","Lloyd's discharge summary arrived and four medicine changes were extracted"],["Sun 11:40","Document","Travis's ED note mentions he cannot afford his controller inhaler"],["Mon 06:00","Pharmacy","Morning batch: no fills for Lloyd's new medicines"],["Mon 06:05","MCheck Clinical","Felicia's HbA1c converted to 9.5% and linked to the approval denial"]];
+const TEAM=[
+ {n:"Maria C., RN",states:"OH, KY",lang:"English",prog:"Heart failure, complex care",act:48,cap:50,sig:5,hi:3},
+ {n:"Ana R., RN",states:"OH",lang:"English, Spanish",prog:"Heart failure, transitions",act:36,cap:50,sig:2,hi:1},
+ {n:"Wei L., RN",states:"OH, PA",lang:"English, Mandarin",prog:"Complex care, dementia",act:41,cap:50,sig:1,hi:1},
+ {n:"James O., LCSW",states:"OH, MI",lang:"English",prog:"Behavioral health",act:27,cap:40,sig:1,hi:1},
+ {n:"Priya S., RN",states:"OH, IN",lang:"English, Hindi",prog:"Diabetes, complex care",act:31,cap:50,sig:1,hi:0},
+ {n:"Dana K., RN",states:"OH",lang:"English",prog:"Transitions of care",act:84,cap:90,sig:7,hi:2},
+];
+const ROUTE=[
+ {id:"r1",what:"New referral: heart failure discharge from Cedar Hollow General, Spanish speaking, Ohio",to:"Ana R., RN",why:"Speaks Spanish, licensed in Ohio, heart failure program, 36 of 50 cases",alt:"Maria C. is at 48 of 50",from:null,toIdx:1},
+ {id:"r2",what:"Move Yu-Lan Chen from Maria C. to Wei L.",to:"Wei L., RN",why:"Speaks Mandarin with the member, dementia program, 41 of 50 cases. Daughter stays the main contact",alt:"Keeps Maria under capacity",from:0,toIdx:2},
+ {id:"r3",what:"Make James O. the behavioral health care manager for Courtney Stanton",to:"James O., LCSW",why:"Behavioral health caseload, 27 of 40 cases. C. Ellison stays on as her counselor",alt:"Maria stays on for physical health",from:null,toIdx:3},
+];
+
+const S={view:"today",pid:"p1",open:{},w:SIGNALS.map(s=>s[1]),done:{},ok:{},edit:{},log:{},signed:{},conv:0,notes:0,fixes:0,matched:false,sim:false,routed:{},pop:null};
+const order=()=>Object.entries(P).map(([id,p])=>({id,p,score:p.flags.reduce((a,f,i)=>a+f*S.w[i],0)})).sort((a,b)=>b.score-a.score);
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const src=id=>id?`<button class="src" data-src="${id}">${id}</button>`:"";
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),4500)}
+function popSrc(id){const s=SRC[id];if(!s)return;S.pop=id;
+ $("#popBox").innerHTML=`<h4>${esc(s[0])} <span class="src">${id}</span></h4>
+ <div class="kv"><div>Source system</div><div>${esc(s[1])}</div><div>When it happened</div><div>${esc(s[2])}</div><div>When we received it</div><div>${esc(s[3])}</div></div>
+ ${s[4]?`<p style="margin:12px 0 0">${esc(s[4])}</p>`:""}${s[5]?`<div class="quote">"${esc(s[5])}"</div>`:""}
+ <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px"><div class="tiny" style="font-weight:600">Something wrong with this record?</div>
+ <div class="reasons">${["Value is wrong","Out of date","Not this member","Duplicate"].map(r=>`<button class="btn small" onclick="reportFix('${id}','${r}')">${r}</button>`).join("")}</div>
+ <div class="tiny muted" style="margin-top:6px">A report becomes a data quality ticket in MCheck. Once fixed at the source, every nurse sees the correction.</div></div>
+ <div style="text-align:right;margin-top:14px"><button class="btn" onclick="closePop()">Close</button></div>`;
+ $("#pop").classList.add("show")}
+function closePop(){$("#pop").classList.remove("show")}
+function reportFix(id,r){S.fixes++;$("#kFix").textContent=S.fixes;closePop();toast(`Ticket DQ-${1040+S.fixes} sent to MCheck: "${r}" on ${id}. The source system owner has been notified.`)}
+$("#pop").addEventListener("click",e=>{if(e.target.id==="pop")closePop()});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-src]");if(b){e.stopPropagation();popSrc(b.dataset.src)}});
+function go(v,pid){if(pid)S.pid=pid;S.view=v;try{location.hash=(v==="member"||v==="call")?`${v}-${S.pid}`:v}catch(e){}render();window.scrollTo(0,0)}
+function readHash(){const h=(location.hash||"").slice(1);const m=h.match(/^(member|call)-(p\d)$/);if(m){S.view=m[1];S.pid=m[2]}else if(h==="before")S.view="about";else if(["today","team","about"].includes(h))S.view=h}
+window.addEventListener("hashchange",()=>{readHash();render()});
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+function vToday(){
+ const q=order();
+ const cards=q.map((x,i)=>{const p=x.p,open=S.open[x.id];
+  const rows=SIGNALS.map((s,k)=>p.flags[k]?`<tr><td>${s[0]}</td><td>+${S.w[k]}</td></tr>`:"").join("");
+  return `<div class="qcard" id="q-${x.id}"><div class="rank">${i+1}</div><div>
+   <div class="qname">${p.name} <span class="muted" style="font-weight:400">${p.age}${p.sex}, ${p.program}</span></div>
+   <div>${p.chips.map(c=>`<span class="chip k-${c[1]}">${esc(c[0])}</span>`).join("")}</div>
+   <div class="tiny muted" style="margin-top:5px">Last contact: ${p.last}</div>
+   ${open?`<div class="why"><b class="tiny">Why number ${i+1}</b><table>${rows}<tr><td><b>Total</b></td><td>${x.score}</td></tr></table><div class="tiny muted">Weights are set by the clinical lead in Tune the rules. Maria can always change the order.</div></div>`:""}
+  </div><div class="qside"><div class="score">${x.score}</div><div class="tiny muted">priority points</div>
+   <div class="tiny" style="margin-top:6px">Best time: <b>${p.best}</b></div><div class="tiny">Due: <b>${p.due}</b></div>
+   <div style="margin-top:9px;display:flex;gap:6px;justify-content:flex-end"><button class="btn small" onclick="S.open['${x.id}']=!S.open['${x.id}'];render()">${open?"Hide":"Why"}</button><button class="btn small primary" onclick="go('member','${x.id}')">Open</button></div>
+  </div></div>`}).join("");
+ const plan=Object.entries(P).map(([id,p])=>[...p.slot,id]).sort((a,b)=>a[0].localeCompare(b[0])).map(([t,txt,id])=>`<div class="plan-item"><div class="plan-time">${t}</div><div>${esc(txt)}<br><button class="btn link tiny" onclick="go('call','${id}')">Open call view</button></div></div>`).join("");
+ const feed=FEED.map(f=>`<div class="feed-item"><b>${f[0]}</b> <span class="chip k-grey">${f[1]}</span><br>${esc(f[2])}</div>`).join("");
+ const sl=SIGNALS.map((s,k)=>`<div class="slider-row"><span>${s[0]}</span><input type="range" min="0" max="40" step="5" value="${S.w[k]}" oninput="S.w[${k}]=+this.value;this.nextElementSibling.textContent=this.value;rerank()"><b>${S.w[k]}</b></div>`).join("");
+ return `<div class="note">Prototype using the five fictional members from the data annex. Click any coral record ID to see where a fact came from, or to report it as wrong.</div>
+ <div class="grid today"><div>
+  <div class="between" style="margin-bottom:12px"><div><h2>Monday 9 November, 08:00</h2><div class="sub" style="margin:0">Members with new signals since Friday. The other 43 cases are on schedule.</div></div>
+  <button class="btn small" ${S.sim?"disabled":""} onclick="simulate()">Simulate a 09:12 pharmacy fill for Lloyd</button></div>
+  ${cards}</div>
+  <div class="grid" style="align-content:start">
+   <div class="card"><h3>Day plan</h3><div class="sub">Each call is timed for when the person can actually answer.</div>${plan}</div>
+   <div class="card"><h3>Since Friday evening</h3>${feed}</div>
+   <div class="card"><h3>Tune the rules</h3><div class="sub">For the clinical lead. The queue re-ranks as you move a weight. In production every change is versioned.</div>${sl}<button class="btn small" style="margin-top:8px" onclick="S.w=SIGNALS.map(s=>s[1]);render()">Reset</button></div>
+  </div></div>`}
+let _t;function rerank(){clearTimeout(_t);_t=setTimeout(()=>{const a=order().map(x=>x.id).join();render();if(a!==order().map(x=>x.id).join())toast("Queue re-ranked with the new weights.")},250)}
+function simulate(){const before=order().find(x=>x.id==="p1").score;P.p1.flags[3]=0;P.p1.chips[1]=["New medicines picked up at 09:12","ok"];P.p1.meds[2][2]="40 mg twice daily filled 9 Nov, 09:12";P.p1.meds[3][2]="Filled 9 Nov, 09:12";P.p1.meds[3][4]="";P.p1.meds[3][5]="";SRC["R-1105"][4]="Update at 09:12: spironolactone 25 mg and furosemide 40 mg twice daily filled at Ashby Falls Pharmacy.";S.sim=true;FEED.push(["Mon 09:12","Pharmacy","Lloyd picked up spironolactone and the new furosemide dose"]);
+ const after=order().find(x=>x.id==="p1").score,rk=order().findIndex(x=>x.id==="p1")+1;render();const el=document.getElementById("q-p1");if(el)el.classList.add("moved");
+ toast(`Lloyd drops from ${before} to ${after} points but stays number ${rk}. The lisinopril conflict and Tuesday's deadline still stand.`)}
+
+function vMember(){
+ const id=S.pid,p=P[id],ix=order().findIndex(x=>x.id===id)+1;
+ const tabs=order().map((x,i)=>`<button class="btn small ${x.id===id?"primary":""}" onclick="go('member','${x.id}')">${i+1}. ${x.p.name.split(" ")[0]}</button>`).join(" ");
+ let match="";if(p.match){match=!S.matched?`<div class="banner match"><b>Possible match</b><span style="flex:1">${esc(p.match[0])} ${src(p.match[1])}</span><button class="btn small primary" onclick="S.matched=true;P.p3.chips[2]=['5 ED visits in 90 days, confirmed','event'];toast('Linked by Maria C. at 08:41 and logged. ED visits in 90 days now show 5.');render()">Same person</button><button class="btn small" onclick="S.matched=true;toast('Kept separate. The matcher learns from this decision.');render()">Not him</button></div>`:`<div class="banner match" style="background:var(--green-bg);border-color:#bcd9b4"><b>Match decided by Maria C.</b><span class="tiny">Logged for audit. Matches under 95% are never linked automatically.</span></div>`}
+ const restricted=p.restricted?`<div class="banner restricted"><span class="badge grey">Restricted</span><span style="flex:1">${esc(p.restricted)}</span></div>`:"";
+ const dl=`<div class="dl">${p.deadlines.map(d=>`<div class="${d[3]}"><small>${esc(d[0])}</small><b>${esc(d[1])}</b><small>${esc(d[2])}</small></div>`).join("")}</div>`;
+ const summary=`<div class="banner ai"><div class="between"><h3 style="margin:0">What changed since the last contact (${esc(p.last)})</h3><span class="badge ai">AI summary, every line cited</span></div>
+  <ul class="summary" style="margin:10px 0 0 18px;padding:0">${p.summary.map(s=>`<li>${esc(s[0])} ${s[1].map(src).join("")}</li>`).join("")}</ul>
+  <div class="tiny muted" style="margin-top:6px">Written only from the records cited. It cannot add a fact without a source.</div></div>`;
+ const nba=`<div class="card"><h3>Next best actions</h3>${p.nba.map((n,k)=>{const key=id+k,d=S.done[key];return `<div class="nba-item ${d?"done":""}"><div class="num">${k+1}</div><div><div class="nba-t">${esc(n[0])}</div><div class="tiny muted">Because: ${esc(n[1])}</div></div><div>${n[2]?`<button class="btn small primary" onclick="go('call','${id}')">Start call</button>`:`<button class="btn small" onclick="S.done['${key}']=!S.done['${key}'];render()">${d?"Undo":"Done"}</button>`}</div></div>`}).join("")}<div class="tiny muted" style="margin-top:6px">Suggested by the rules. Maria chooses, and clinical decisions stay with her and the PCP.</div></div>`;
+ const meds=`<div class="card"><div class="between"><h3 style="margin:0">Medicines by source</h3><span class="mcheck">Reconciled by MCheck Clinical</span></div><table class="t" style="margin-top:8px"><tr><th>Medicine</th><th>Hospital or ED</th><th>Pharmacy (dispensed)</th><th>PCP list or note</th><th>Conflict</th><th>Ask on the call</th></tr>
+  ${p.meds.map(m=>`<tr class="${m[5]==="High"?"hi":""}"><td><b>${esc(m[0])}</b></td><td>${esc(m[1])||'<span class="muted">None</span>'}</td><td>${esc(m[2])}</td><td>${esc(m[3])}</td><td>${m[4]?`<span class="sev ${m[5]}">${m[5]}</span> ${esc(m[4])}`:'<span class="muted">None</span>'}</td><td class="tiny">${esc(m[6])}</td></tr>`).join("")}</table>
+  <div class="tiny muted" style="margin-top:8px">Conflicts are shown side by side and never settled automatically. Dispensed is not the same as taken, and cash purchases are invisible to the plan.</div></div>`;
+ const tl=`<div class="card"><h3>Timeline: when it happened and when we found out</h3><div class="tl">${p.timeline.map(t=>`<div class="tl-item ${t[2]}"><div class="tl-when">${t[0]}${t[4]?`<span class="lag">${t[4]}</span>`:""}</div><div>${esc(t[1])} ${src(t[3])}</div></div>`).join("")}</div></div>`;
+ const labs=p.labs.length?`<div class="card"><div class="between"><h3 style="margin:0">Key labs</h3><span class="mcheck">Units checked by MCheck Clinical</span></div><table class="t" style="margin-top:8px">${p.labs.map(l=>`<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td class="muted">${l[2]}</td><td>${l[3]}</td></tr>`).join("")}</table></div>`:`<div class="card"><h3>Key labs</h3><div class="muted tiny">No labs in the last 12 months, which is a signal in itself.</div></div>`;
+ const loops=`<div class="card"><h3>Open loops: approved is not delivered</h3>${p.loops.map(l=>`<div class="row"><div class="between"><b>${esc(l[0])}</b><span class="badge ${l[2]}">${l[2]==="bad"?"Stalled":"Watch"}</span></div><div class="tiny">${esc(l[1])} ${src(l[3])}</div>${l[4]!==undefined?`<div class="gauge"><span style="width:${l[4]}%"></span></div>`:""}</div>`).join("")}</div>`;
+ const gaps=`<div class="card"><h3>Quality gaps to close on the same call</h3>${p.gaps.map(g=>`<div class="row between"><span>${esc(g[0])}</span><span class="tiny muted">${esc(g[1])}</span></div>`).join("")}</div>`;
+ const social=`<div class="card"><h3>Social needs and caregiver</h3>${p.social.map(s=>`<div class="row"><b>${esc(s[0])}</b> ${s[2]?`<span class="badge warn">${s[1]?"Stale, "+esc(s[1]):"None on file"}</span>`:""}${s[3]?`<div class="tiny" style="color:var(--amber);margin-top:3px">${esc(s[3])}</div>`:""}</div>`).join("")}</div>`;
+ const fresh=`<div class="card"><h3>How fresh is each source</h3><div class="fresh">${p.fresh.map(f=>`<div><span class="dot ${f[2]}"></span><b>${f[0]}</b><br><span class="muted">${esc(f[1])}</span></div>`).join("")}</div></div>`;
+ return `<div style="margin-bottom:12px">${tabs}</div>
+ <div class="card" style="margin-bottom:16px"><div class="mhead"><div style="flex:1;min-width:280px"><div style="display:flex;gap:10px;align-items:center"><h1>${p.name}</h1><span class="chip k-due">Queue position ${ix}</span></div>
+  <div class="facts"><span><b>${p.age}${p.sex}</b></span><span>${p.mid}</span><span>${p.cov}</span><span>${p.program}</span><span>Language: <b>${p.lang}</b></span></div>
+  <div class="facts"><span>PCP: <b>${esc(p.pcp)}</b> <span class="mcheck">${esc(p.pcpTag)}</span>${p.pcpSrc?src(p.pcpSrc):""}</span></div>
+  <div class="facts"><span>Representative: <b>${esc(p.rep)}</b></span></div>
+  <div style="margin-top:6px">${p.chips.map(c=>`<span class="chip k-${c[1]}">${esc(c[0])}</span>`).join("")}</div></div>
+  <div style="text-align:right"><button class="btn primary" onclick="go('call','${id}')">Start call and note</button><div class="tiny muted" style="margin-top:8px">Best time: <b>${p.best}</b></div></div></div></div>
+ ${dl}${match}${restricted}
+ <div class="grid m360"><div class="grid" style="align-content:start">${summary}${meds}${tl}${labs}</div><div class="grid" style="align-content:start">${nba}${loops}${gaps}${social}${fresh}</div></div>`}
+
+function vCall(){
+ const id=S.pid,p=P[id];
+ const ladder=p.contacts.map(c=>{const dead=c[6]==="dead",best=c[0]===1;return `<div class="ladder-item ${dead?"dead":""} ${best?"best":""}"><div class="num" ${dead?'style="background:#e8eaee;color:#999"':""}>${dead?"x":c[0]}</div>
+  <div><b>${esc(c[1])}</b><div class="phone">${esc(c[2])}</div><div class="tiny muted">${esc(c[3])}. Authorized: ${esc(c[4]||"n/a")}. Best time: ${esc(c[5]||"n/a")}</div></div>
+  <div>${dead?'<span class="badge bad">Do not dial</span>':best?'<span class="badge ok">Try first</span>':""}</div></div>`}).join("");
+ const log=(S.log[id]||[]).map(l=>`<div class="log-item">${l}</div>`).join("")||'<div class="tiny muted">No attempts yet today. Outcomes are logged with one click.</div>';
+ const aiF=p.fields.filter(f=>f[3]==="ai"),allOk=aiF.every(f=>S.ok[id+"|"+f[0]]),signed=S.signed[id];
+ const fields=p.fields.map(f=>{const key=id+"|"+f[0],ok=S.ok[key],rn=f[3]==="rn",val=S.edit[key]!==undefined?S.edit[key]:f[1];
+  return `<div class="field ${rn?"rn":ok?"ok":""}"><div class="between"><b class="tiny">${esc(f[0])}</b>${rn?'<span class="badge rn">Clinician enters</span>':ok?'<span class="badge ok">Confirmed by clinician</span>':'<span class="badge ai">AI draft, please confirm</span>'}</div>
+  <textarea rows="2" placeholder="${rn?"Typed by Maria. Never pre-filled.":""}" oninput="S.edit['${key}']=this.value">${esc(val)}</textarea>
+  <div class="between"><span class="tiny muted">Source: ${esc(f[2])}</span>${rn?"":`<button class="btn small" onclick="S.ok['${key}']=!S.ok['${key}'];render()">${ok?"Undo":"Confirm"}</button>`}</div></div>`}).join("");
+ return `<div class="between" style="margin-bottom:14px"><div><button class="btn small" onclick="go('member','${id}')">Back to Member 360</button> <b style="margin-left:10px;font-size:16px">${p.name}</b> <span class="muted">${p.program}</span></div></div>
+ <div class="grid call"><div class="grid" style="align-content:start">
+  <div class="card"><h3>Who to call, in order</h3><div class="sub">Ranked by whether the number works, how recently it worked, and whether we may discuss health details.</div>${ladder}
+   <div class="outcomes">${["Connected","No answer","Voicemail","Wrong number","Text sent"].map(o=>`<button class="btn small" onclick="logOut('${o}')">${o}</button>`).join("")}</div></div>
+  <div class="card"><h3>Today's attempts</h3>${log}</div>
+  <div class="card"><h3>Call agenda</h3><ol style="margin:0;padding-left:18px">${p.agenda.map(a=>`<li style="margin-bottom:5px">${esc(a)}</li>`).join("")}</ol><div class="tiny muted" style="margin-top:6px">Built from the next best actions.${p.agendaNote?" "+esc(p.agendaNote):""}</div></div>
+ </div>
+ <div class="card"><h3>Documentation, entered once</h3><div class="sub">AI fills in what it can cite. Maria edits or confirms each field. Judgment fields such as safety, observations and goals are never pre-filled. Signing unlocks once every AI field is confirmed.</div>
+  ${fields}
+  <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><button class="btn primary" ${allOk&&!signed?"":"disabled"} onclick="sign()">Sign and file</button><span class="tiny muted">${signed?"Signed.":allOk?"Ready to sign.":"Confirm the amber fields to sign."}</span></div>
+  ${signed?`<div class="filed"><b>Filed once, written to four places:</b> assessment, care plan, contact note and ${id==="p1"?"the HEDIS medication reconciliation record":"the quality gap record"}.<div class="tiny" style="margin-top:4px">In the time model, post-call documentation falls from about 35 minutes to about 12.</div></div>`:""}
+ </div></div>`}
+function logOut(o){const id=S.pid,p=P[id],n=(S.log[id]||[]).length,t=`${9+n}:${n%2?"40":"12"}`,first=p.contacts.find(c=>c[0]===1);(S.log[id]=S.log[id]||[]).push(`<b>${t}</b>  ${esc(o)}, ${esc(first?first[2]:"")}`);
+ if(o==="Connected"){S.conv++;$("#kConv").textContent=S.conv}
+ if(o==="Wrong number"){S.fixes++;$("#kFix").textContent=S.fixes;toast("Number marked wrong for the whole plan and sent to MCheck as a correction.")}
+ render()}
+function sign(){S.signed[S.pid]=true;S.notes++;$("#kNotes").textContent=S.notes;S.done[S.pid+"0"]=true;toast("Note signed. The same facts now sit in the assessment, care plan, contact note and quality record.");render()}
+
+function vBefore(){
+ const sys=[["ADT alert inbox","Discharged 7 Nov at 14:10. No reason given.",1.5],["Claims portal","Last claim is a PCP visit on 22 Sep. The admission is not there yet.",2],["Pharmacy file","Lisinopril active for 90 days. Nothing new since discharge.",2],["HIE portal","Log in, find the PDF, read six pages to spot the medicine changes.",4],["Authorization system","Home health shows PEND-CI. Look up what the code means.",2],["Old case notes","Scroll back to 12 Oct to find the swelling and the scale task.",2.5],["Own spreadsheet","Check which tasks are still open.",2]];
+ const tot=sys.reduce((a,s)=>a+s[2],0);
+ const aft=[["Read what changed since the last contact",1.5],["Check the medicines table",2],["Pick from the next best actions",1],["Check deadlines and who to call",1],["Glance at source freshness",0.5]];
+ const tot2=aft.reduce((a,s)=>a+s[1],0),max=4;
+ return `<h2 style="margin-top:28px">Why this matters: preparing to call Lloyd Thornton</h2><div class="sub">Same member, same Monday morning. Minutes are estimates from the time model in the data annex (prep falls from about 16 to 6 minutes per member).</div>
+ <div class="grid ba">
+  <div class="card"><div class="between"><h3 style="margin:0">Today: seven systems</h3><span class="big" style="color:var(--red)">${tot} min</span></div><div class="sub" style="margin-top:4px">The medicine conflict only appears if Maria compares the pharmacy file with page four of the PDF herself.</div>
+   ${sys.map(s=>`<div class="sys"><div><b>${s[0]}</b><span class="tiny muted">${s[1]}</span><span class="bar" style="width:${s[2]/max*100}%"></span></div><div style="text-align:right;font-weight:600">${s[2]} min</div></div>`).join("")}</div>
+  <div class="card"><div class="between"><h3 style="margin:0">With the Workbench: one screen</h3><span class="big" style="color:var(--green)">${tot2} min</span></div><div class="sub" style="margin-top:4px">The conflict, the stuck approval and the open scale task are already on the page, each with its source.</div>
+   ${aft.map(s=>`<div class="sys"><div><b>${s[0]}</b><span class="bar g2" style="width:${s[1]/max*100}%"></span></div><div style="text-align:right;font-weight:600">${s[1]} min</div></div>`).join("")}
+   <div class="card" style="background:var(--green-bg);border-color:#bcd9b4;margin-top:12px"><b>About ${Math.round((tot-tot2)*9.85)} minutes back each day</b><div class="tiny">${tot-tot2} minutes saved per member, across roughly 10 members prepared a day. Combined with shorter notes and better connect rates, the time model goes from about 2 real conversations a day to about 5 or 6.</div></div>
+   <div style="margin-top:12px"><button class="btn primary" onclick="go('member','p1')">Open Lloyd's Member 360</button></div></div>
+ </div>`}
+
+function vTeam(){
+ const rows=TEAM.map(t=>{const u=t.act/t.cap,col=u>=.95?"#e76545":u>=.85?"#d9a52b":"#4f9a5a";return `<tr><td><b>${t.n}</b><div class="tiny muted">${t.prog}</div></td><td>${t.states}</td><td>${t.lang}</td><td><span class="cap"><span style="width:${Math.min(100,u*100)}%;background:${col}"></span></span>${t.act} of ${t.cap}</td><td>${t.sig}</td><td>${t.hi}</td></tr>`}).join("");
+ const rt=ROUTE.map(r=>{const d=S.routed[r.id];return `<div class="row"><b>${esc(r.what)}</b><div class="tiny" style="margin-top:3px">Suggested: <b>${esc(r.to)}</b>. ${esc(r.why)}.</div><div class="tiny muted">${esc(r.alt)}</div>
+  <div style="margin-top:6px">${d?'<span class="badge ok">Assigned</span>':`<button class="btn small primary" onclick="assign('${r.id}')">Assign</button> <button class="btn small" onclick="toast('Left with the current owner.')">Keep as is</button>`}</div></div>`}).join("");
+ return `<h2>Team lead: caseload and routing</h2><div class="sub">For the care management supervisor. Spikes show up here before they reach one nurse's Monday.</div>
+ <div class="grid team"><div class="card"><h3>Caseload today</h3><table class="t"><tr><th>Care manager</th><th>Licensed in</th><th>Languages</th><th>Active cases</th><th>New signals</th><th>High acuity</th></tr>${rows}</table>
+  <div class="tiny muted" style="margin-top:8px">Capacity differs by program: transitions of care runs higher than complex care. Dana K. and Maria C. are near their limits after the weekend.</div></div>
+  <div class="card"><h3>Routing suggestions</h3><div class="sub">Matched on language, state license, program, acuity and capacity, as in the caselet. The supervisor decides.</div>${rt}</div></div>`}
+function assign(r){S.routed[r]=true;const x=ROUTE.find(z=>z.id===r);TEAM[x.toIdx].act++;if(x.from!==null)TEAM[x.from].act--;toast(`Assigned to ${x.to}. Caseloads updated.`);render()}
+
+function vAbout(){
+ return `<h2>About this prototype</h2><div class="sub">A clickable MVP for a health plan's case management team, built for the HiLabs product caselet.</div>
+ <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+ <div class="card"><h3>The problem</h3><p style="margin:0">A nurse with 48 cases opens six or seven systems per member, works from data that is weeks old, types the same facts into four forms and calls numbers that no longer work. She manages about two real conversations a day.</p></div>
+ <div class="card"><h3>How it is organized</h3><p style="margin:0"><b>Today</b> answers who to work on and when. <b>Member 360</b> gives one picture where every fact has a source and a date. <b>Call and note</b> handles reaching the member and documenting once. <b>Team lead</b> keeps caseloads balanced.</p></div>
+ <div class="card"><h3>Where HiLabs fits</h3><p style="margin:0"><b>MCheck Clinical</b> maps and validates the clinical data underneath: units, codes, medicine changes from documents. <b>MCheck Directory Accuracy</b> checks provider details such as the PCP's phone. Records a nurse reports as wrong go back to MCheck as data quality tickets.</p></div>
+ <div class="card"><h3>Principles</h3><ul style="margin:0;padding-left:18px"><li>Use fast sources first. Hospital alerts and pharmacy fills arrive in hours, claims in 30 to 90 days.</li><li>Show conflicts and never settle them automatically.</li><li>Every fact carries a source and a date, and stale data is labelled.</li><li>The queue runs on rules anyone can read. A model may add to them later.</li></ul></div>
+ <div class="card"><h3>What the system does and what Maria does</h3><table class="t"><tr><th>Automated</th><th>Clinician decides</th></tr><tr><td>Merge duplicate alerts, link records at 95% or above</td><td>Any match below 95%</td></tr><tr><td>Pull medicine changes and barriers from documents, with quotes</td><td>The medicine list and any clinical advice</td></tr><tr><td>Summarize what changed, citing every line</td><td>What to do about it</td></tr><tr><td>Pre-fill note fields it can cite</td><td>Safety, observations and goals</td></tr><tr><td>Rank numbers, suggest times, log outcomes</td><td>Who to call and what to say</td></tr></table></div>
+ <div class="card"><h3>Left out on purpose</h3><ul style="margin:0;padding-left:18px"><li>A predictive model inside the ranking, until nurses trust the rules</li><li>Automated calls or texts to members</li><li>A member-facing app</li><li>Home monitoring devices, to pilot later with heart failure</li></ul></div>
+ <div class="card"><h3>Code, data and a text version</h3><p style="margin:0">The code, a README with screenshots and all data behind these screens (data.json) are on <a href="https://github.com/vedant464github/hilabs_prototype" target="_blank" rel="noopener">GitHub</a>. A plain-text version of every screen is built into this page for readers and tools that do not run JavaScript.</p></div>
+ <div class="card"><h3>Things to try</h3><ol style="margin:0;padding-left:18px"><li>On Today, open Why for Lloyd, then move a weight in Tune the rules.</li><li>Click Simulate to see a new pharmacy fill change the queue.</li><li>Open Travis and decide the 88% match.</li><li>Click any coral record ID and report it as wrong.</li><li>In Call and note, log an outcome, confirm the amber fields and sign.</li><li>Try a routing suggestion in Team lead.</li></ol></div>
+ </div>${vBefore()}`}
+
+function render(){document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.view));
+ const v=S.view;$("#main").innerHTML=v==="today"?vToday():v==="member"?vMember():v==="call"?vCall():v==="team"?vTeam():vAbout()}
+readHash();render();
+</script>
+</body>
+</html>

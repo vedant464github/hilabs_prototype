@@ -1,0 +1,2183 @@
+{
+  "generated": "Synthetic data, all fictional. Reference time Monday 9 Nov 2026 08:00.",
+  "rules": [
+    {
+      "rule": "Discharged or ED visit in the last 7 days",
+      "weight": 25
+    },
+    {
+      "rule": "Care deadline within 2 business days, or already missed",
+      "weight": 20
+    },
+    {
+      "rule": "Medication safety conflict for a clinician to review",
+      "weight": 20
+    },
+    {
+      "rule": "Critical medicine not picked up, or a gap over 30 days",
+      "weight": 15
+    },
+    {
+      "rule": "No follow-up booked, missed, or booked too late",
+      "weight": 15
+    },
+    {
+      "rule": "3 or more acute visits in 90 days",
+      "weight": 10
+    },
+    {
+      "rule": "New event since the last successful contact",
+      "weight": 10
+    },
+    {
+      "rule": "Not reached for more than 21 days",
+      "weight": 10
+    },
+    {
+      "rule": "Open social or caregiver barrier",
+      "weight": 5
+    },
+    {
+      "rule": "Risk score up 0.20 or more in 3 months",
+      "weight": 5
+    }
+  ],
+  "members": {
+    "p1": {
+      "name": "Lloyd Thornton",
+      "age": 78,
+      "sex": "M",
+      "mid": "MBR3853149",
+      "cov": "Bluestem MA-HMO",
+      "program": "Heart failure care management",
+      "lang": "English",
+      "pcp": "Dr. Lucia Ibarra, Hawthorn Family Clinic",
+      "pcpTag": "Verified by MCheck Directory Accuracy, 1 Sep",
+      "rep": "Wife Marilyn, manages his pills (verbal permission each call)",
+      "last": "12 Oct, connected",
+      "flags": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "chips": [
+        [
+          "Discharged Saturday, heart failure",
+          "event"
+        ],
+        [
+          "New medicines not picked up",
+          "med"
+        ],
+        [
+          "Lisinopril stopped but still at home",
+          "med"
+        ],
+        [
+          "Follow-up call due Tue",
+          "due"
+        ]
+      ],
+      "best": "Before noon",
+      "due": "Tue 10 Nov",
+      "slot": [
+        "08:30",
+        "Call Lloyd and Marilyn about his medicines"
+      ],
+      "deadlines": [
+        [
+          "Post-discharge call",
+          "Due Tue 10 Nov",
+          "2 business days after discharge",
+          "crit"
+        ],
+        [
+          "PCP visit and blood test",
+          "By 14 Nov",
+          "Day 2 of 7",
+          "warn"
+        ],
+        [
+          "Medication reconciliation (HEDIS)",
+          "By 7 Dec",
+          "30 days after discharge",
+          "info"
+        ]
+      ],
+      "summary": [
+        [
+          "Admitted 4 to 7 Nov at Cedar Hollow General with heart failure (ejection fraction 25%) and a kidney injury.",
+          [
+            "A-1001",
+            "A-1004",
+            "D-1101"
+          ]
+        ],
+        [
+          "Four medicines changed at discharge: furosemide doubled to twice daily, spironolactone started, lisinopril stopped, metformin on hold.",
+          [
+            "D-1101"
+          ]
+        ],
+        [
+          "None of the new or changed medicines had been picked up by 06:00 today. Lisinopril and metformin are still at home.",
+          [
+            "R-1101",
+            "R-1105"
+          ]
+        ],
+        [
+          "His furosemide ran out on 15 Oct, three weeks before he was admitted. On 12 Oct you noted ankle swelling and no scale.",
+          [
+            "R-1102",
+            "N-1101"
+          ]
+        ],
+        [
+          "Potassium is 4.9 on the new spironolactone and eGFR is 31, so he needs a blood test this week.",
+          [
+            "L-1105"
+          ]
+        ],
+        [
+          "Home health approval has been stuck since Saturday, and no PCP visit is booked.",
+          [
+            "U-1101",
+            "AP-1101"
+          ]
+        ]
+      ],
+      "timeline": [
+        [
+          "12 Oct",
+          "Your call: ankle swelling, no scale at home",
+          "contact",
+          "N-1101",
+          ""
+        ],
+        [
+          "15 Oct",
+          "Furosemide supply ran out",
+          "med",
+          "R-1102",
+          ""
+        ],
+        [
+          "20 Oct",
+          "Lisinopril filled for 90 days",
+          "med",
+          "R-1101",
+          ""
+        ],
+        [
+          "4 Nov, 22:15",
+          "Admitted to Cedar Hollow General, duplicate alert merged",
+          "event",
+          "A-1001",
+          "received 16 min later"
+        ],
+        [
+          "7 Nov, 14:10",
+          "Discharged home, no diagnosis in the alert",
+          "event",
+          "A-1004",
+          "received 15 min later"
+        ],
+        [
+          "7 Nov",
+          "Home health approval requested, still pending",
+          "social",
+          "U-1101",
+          ""
+        ],
+        [
+          "8 Nov, 09:12",
+          "Discharge summary arrived",
+          "event",
+          "D-1101",
+          "19 hours after discharge"
+        ]
+      ],
+      "meds": [
+        [
+          "Lisinopril",
+          "Stop (kidney injury)",
+          "Filled 20 Oct, 90 days at home",
+          "Active",
+          "Stopped but still at home",
+          "High",
+          "Has he stopped it? Where is the bottle?"
+        ],
+        [
+          "Metformin",
+          "Hold until kidney recheck",
+          "Filled 1 Oct, 90 days",
+          "Active",
+          "Held but still at home",
+          "High",
+          "Is he still taking it?"
+        ],
+        [
+          "Furosemide",
+          "40 mg twice daily",
+          "20 mg daily, ran out 15 Oct, new dose not filled",
+          "20 mg daily",
+          "New dose not dispensed",
+          "High",
+          "Which water pill, and how often?"
+        ],
+        [
+          "Spironolactone",
+          "25 mg daily, new",
+          "No claim",
+          "None",
+          "New medicine not dispensed",
+          "High",
+          "Does he have it?"
+        ],
+        [
+          "Metoprolol succinate",
+          "Continue 50 mg",
+          "Filled 1 Oct, 90 days",
+          "50 mg",
+          "",
+          "",
+          ""
+        ]
+      ],
+      "labs": [
+        [
+          "BNP",
+          "1,450 pg/mL",
+          "4 Nov",
+          "Very high (normal under 100)"
+        ],
+        [
+          "Creatinine",
+          "2.1 mg/dL",
+          "4 Nov",
+          "Up from 1.4 in June"
+        ],
+        [
+          "eGFR",
+          "31",
+          "4 Nov",
+          "Stage 3b kidney function"
+        ],
+        [
+          "Potassium",
+          "4.9 mmol/L",
+          "6 Nov",
+          "High normal on new spironolactone"
+        ]
+      ],
+      "loops": [
+        [
+          "Home health nursing approval",
+          "Pending 2 days, code PEND-CI (plan asked the hospital for information)",
+          "warn",
+          "U-1101"
+        ],
+        [
+          "Scale order, your task from 12 Oct",
+          "Open for 28 days",
+          "bad",
+          "N-1101"
+        ],
+        [
+          "PCP visit within 7 days of discharge",
+          "Not booked, due 14 Nov",
+          "bad",
+          "AP-1101"
+        ]
+      ],
+      "gaps": [
+        [
+          "Medication reconciliation after discharge",
+          "By 7 Dec"
+        ],
+        [
+          "Patient engagement after discharge",
+          "By 7 Dec"
+        ]
+      ],
+      "social": [
+        [
+          "Wife (82) manages pills and drives",
+          "252 days old",
+          1,
+          "The hospital note says his wife now has trouble walking, so the transport answer may be wrong."
+        ]
+      ],
+      "fresh": [
+        [
+          "Hospital alerts",
+          "7 Nov, 14:25",
+          "g"
+        ],
+        [
+          "Pharmacy fills",
+          "9 Nov, 06:00",
+          "g"
+        ],
+        [
+          "Clinical documents",
+          "8 Nov, 09:12",
+          "g"
+        ],
+        [
+          "Labs",
+          "8 Nov",
+          "g"
+        ],
+        [
+          "Medical claims",
+          "Up to 8 Oct (32 days)",
+          "a"
+        ],
+        [
+          "Risk model",
+          "1 Nov, before admission",
+          "a"
+        ],
+        [
+          "Social screen",
+          "2 Mar (252 days)",
+          "r"
+        ]
+      ],
+      "nba": [
+        [
+          "Call Lloyd and Marilyn before noon and go through the four changed medicines",
+          "Follow-up call due Tuesday; discharge medicines differ from pharmacy records",
+          1
+        ],
+        [
+          "Arrange same-day delivery of spironolactone and the new furosemide dose",
+          "No fill by 06:00 today, about 40 hours after discharge",
+          0
+        ],
+        [
+          "Call utilization management to clear the home health approval",
+          "Pending over the weekend",
+          0
+        ],
+        [
+          "Book a PCP visit and blood test by 14 Nov",
+          "Nothing booked; potassium 4.9",
+          0
+        ],
+        [
+          "Order a scale and teach daily weights",
+          "Your task has been open for 28 days",
+          0
+        ]
+      ],
+      "contacts": [
+        [
+          1,
+          "Lloyd, with wife Marilyn on speaker",
+          "(419) 555-0136",
+          "Mobile, valid, last reached 12 Oct",
+          "Yes (wife: verbal each call)",
+          "Mornings",
+          ""
+        ]
+      ],
+      "agenda": [
+        "Breathing, swelling, and today's weight if he has a scale",
+        "Go bottle by bottle: stop lisinopril, hold metformin, start spironolactone, furosemide 40 mg twice a day",
+        "Offer same-day delivery of the new medicines",
+        "Book PCP visit and blood test this week",
+        "Daily weights: call if up 2 lb in a day or 5 lb in a week"
+      ],
+      "fields": [
+        [
+          "Medication reconciliation (HEDIS)",
+          "Done with member and wife. Lisinopril stopped, metformin held, spironolactone 25 mg and furosemide 40 mg twice daily started.",
+          "D-1101 and pharmacy",
+          "ai"
+        ],
+        [
+          "Discharge instructions understood",
+          "Daily weights. Call if up 2 lb in a day or 5 lb in a week. 2 g sodium diet.",
+          "D-1101",
+          "ai"
+        ],
+        [
+          "Follow-up appointment",
+          "PCP at Hawthorn Family Clinic by 14 Nov with blood test.",
+          "AP-1101",
+          "ai"
+        ],
+        [
+          "Home health",
+          "Skilled nursing approval pending, escalated to utilization management.",
+          "U-1101",
+          "ai"
+        ],
+        [
+          "Caregiver",
+          "Wife Marilyn present and manages medicines.",
+          "N-1101",
+          "ai"
+        ],
+        [
+          "Clinical observations from the call",
+          "",
+          "Clinician only",
+          "rn"
+        ]
+      ],
+      "score": 110
+    },
+    "p3": {
+      "name": "Travis Whitlock",
+      "age": 39,
+      "sex": "M",
+      "mid": "MBR1327683",
+      "cov": "Bluestem Medicaid",
+      "program": "Complex care management, frequent ED use",
+      "lang": "English",
+      "pcp": "Dr. Farah Bergstrom, Elmhurst Primary Care (never seen)",
+      "pcpTag": "Listing outdated per MCheck Directory Accuracy",
+      "pcpSrc": "P-3001",
+      "rep": "None",
+      "last": "Never reached",
+      "flags": [
+        1,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "chips": [
+        [
+          "ED visit last night for asthma",
+          "event"
+        ],
+        [
+          "New phone number found",
+          "contact"
+        ],
+        [
+          "5 ED visits in 90 days, 2 unconfirmed",
+          "event"
+        ],
+        [
+          "Rescue inhaler only",
+          "med"
+        ]
+      ],
+      "best": "9 to 10 am",
+      "due": "Closure review 5 Dec",
+      "slot": [
+        "09:15",
+        "Travis, using the new number"
+      ],
+      "match": [
+        "Two ED records from Elmhurst Medical Center, registered as WHITLOCK, TRAV with an old address, match this member at 88%. Anything under 95% waits for a person to confirm.",
+        "A-3001"
+      ],
+      "deadlines": [
+        [
+          "PCP visit after ED",
+          "Within 3 to 5 days",
+          "Per ED discharge note",
+          "crit"
+        ],
+        [
+          "Unable to reach review",
+          "5 Dec",
+          "Would close his case",
+          "warn"
+        ],
+        [
+          "Asthma medication ratio (HEDIS)",
+          "By 31 Dec",
+          "Controller fills needed",
+          "info"
+        ]
+      ],
+      "summary": [
+        [
+          "ED visit last night at St. Ambrose for an asthma attack. Sent home at 04:20.",
+          [
+            "A-3005"
+          ]
+        ],
+        [
+          "The ED note says he ran out of his controller inhaler because of the cost, and he is staying with his sister.",
+          [
+            "D-3101"
+          ]
+        ],
+        [
+          "A new phone number was captured at that ED visit. The number on file has been dead since 21 Oct and was still called three more times.",
+          [
+            "A-3005",
+            "K-3107"
+          ]
+        ],
+        [
+          "Four albuterol fills in 90 days at Wellway Pharmacy #313 and no controller since May.",
+          [
+            "R-3106"
+          ]
+        ],
+        [
+          "No PCP visit in 18 months, and his case is set for an unable to reach closure.",
+          [
+            "N-3101"
+          ]
+        ]
+      ],
+      "timeline": [
+        [
+          "22 Aug",
+          "ED at Elmhurst, not yet linked (88% match)",
+          "event",
+          "A-3001",
+          ""
+        ],
+        [
+          "18 Sep",
+          "ED at St. Ambrose, asthma",
+          "event",
+          "",
+          ""
+        ],
+        [
+          "9 Oct",
+          "ED at Elmhurst, asthma, prednisone",
+          "event",
+          "",
+          ""
+        ],
+        [
+          "21 Oct",
+          "Number on file found disconnected",
+          "contact",
+          "K-3107",
+          ""
+        ],
+        [
+          "27 Oct",
+          "ED at Elmhurst, back pain, not yet linked (88% match)",
+          "event",
+          "A-3001",
+          ""
+        ],
+        [
+          "7 Nov, 23:50",
+          "ED at St. Ambrose for an asthma attack, new phone captured",
+          "event",
+          "A-3005",
+          "received 22 min later"
+        ],
+        [
+          "8 Nov",
+          "Albuterol refill at Wellway #313",
+          "med",
+          "R-3106",
+          ""
+        ]
+      ],
+      "meds": [
+        [
+          "Fluticasone and salmeterol (controller)",
+          "ED: restart controller, too expensive",
+          "Last filled 30 May",
+          "Prescribed",
+          "Recommended but not taken (cost)",
+          "Medium",
+          "Can you afford the purple inhaler?"
+        ],
+        [
+          "Albuterol (rescue)",
+          "Refill",
+          "4 fills in 90 days",
+          "As needed",
+          "Leaning on the rescue inhaler",
+          "Medium",
+          "How often are you using it?"
+        ]
+      ],
+      "labs": [],
+      "loops": [
+        [
+          "Unable to reach closure review",
+          "Set for 5 Dec. It would drop the member with the most ED visits.",
+          "bad",
+          "N-3101"
+        ],
+        [
+          "PCP phone in the directory",
+          "The practice moved. MCheck Directory Accuracy suggests the new number.",
+          "warn",
+          "P-3001"
+        ]
+      ],
+      "gaps": [
+        [
+          "Asthma medication ratio",
+          "By 31 Dec"
+        ],
+        [
+          "Adult access to preventive care",
+          "By 31 Dec"
+        ]
+      ],
+      "social": [
+        [
+          "No social screen on file, he has never been reached",
+          "",
+          1,
+          "Ask on the first call about where he is staying, the cost of medicines, and his phone."
+        ]
+      ],
+      "fresh": [
+        [
+          "Hospital alerts",
+          "8 Nov, 00:12",
+          "g"
+        ],
+        [
+          "Pharmacy fills",
+          "9 Nov, 06:00",
+          "g"
+        ],
+        [
+          "Clinical documents",
+          "8 Nov, 11:40",
+          "g"
+        ],
+        [
+          "Medical claims",
+          "Up to 9 Oct, 2 ED visits missing",
+          "a"
+        ],
+        [
+          "Phone check",
+          "21 Oct",
+          "a"
+        ],
+        [
+          "Social screen",
+          "None",
+          "r"
+        ]
+      ],
+      "nba": [
+        [
+          "Confirm or reject the two unlinked ED records",
+          "A person decides any match under 95%",
+          1
+        ],
+        [
+          "Call or text the new number (419) 555-0124 between 9 and 10 am",
+          "Fresher number from last night's ED visit",
+          0
+        ],
+        [
+          "If he does not answer, leave a message with the Wellway pharmacist",
+          "He picks up albuterol there every few weeks",
+          0
+        ],
+        [
+          "Cancel the unable to reach closure",
+          "He can be reached now",
+          0
+        ],
+        [
+          "Ask the PCP about an affordable controller and book a first visit",
+          "Rescue-only asthma pattern",
+          0
+        ]
+      ],
+      "contacts": [
+        [
+          1,
+          "Travis, number from the 7 Nov ED visit",
+          "(419) 555-0124",
+          "Mobile, not yet verified, 1 day old",
+          "Yes",
+          "Late morning",
+          ""
+        ],
+        [
+          2,
+          "Wellway Pharmacy #313, sees him every 3 weeks",
+          "(419) 555-0155",
+          "Valid",
+          "Message only, no health details",
+          "Next pickup around 1 Dec",
+          ""
+        ],
+        [
+          3,
+          "Sister, name unknown",
+          "Unknown",
+          "Mentioned in the ED note",
+          "Not authorized",
+          "",
+          ""
+        ],
+        [
+          0,
+          "Travis, number in the member file",
+          "(419) 555-0143",
+          "Disconnected since 21 Oct",
+          "",
+          "",
+          "dead"
+        ]
+      ],
+      "agenda": [
+        "Confirm this is his number and whether texts work better",
+        "How is his breathing since the ED visit?",
+        "Controller inhaler: find a cheaper option or copay help",
+        "Book a first PCP visit and offer transport",
+        "Where is he staying? Update the address and do a short social screen"
+      ],
+      "fields": [
+        [
+          "Verified contact number",
+          "(419) 555-0124 confirmed with the member and set as primary. Old number retired.",
+          "A-3005",
+          "ai"
+        ],
+        [
+          "Asthma control",
+          "4 rescue inhaler fills in 90 days, no controller since May, ED visit on 7 Nov.",
+          "R-3106, D-3101",
+          "ai"
+        ],
+        [
+          "Barrier",
+          "Cannot afford the controller inhaler.",
+          "D-3101",
+          "ai"
+        ],
+        [
+          "Address",
+          "Staying with his sister, street to confirm.",
+          "D-3101",
+          "ai"
+        ],
+        [
+          "Social needs screen (first one)",
+          "",
+          "Clinician asks on the call",
+          "rn"
+        ]
+      ],
+      "score": 85
+    },
+    "p4": {
+      "name": "Courtney Stanton",
+      "age": 30,
+      "sex": "F",
+      "mid": "MBR2908397",
+      "cov": "Bluestem Medicaid",
+      "program": "Behavioral health care management; counselor C. Ellison, LCSW",
+      "lang": "English",
+      "pcp": "Dr. Joseph Feld, Crossroads Community Health. Psychiatry: Dr. Rahul Hashmi",
+      "pcpTag": "Verified by MCheck Directory Accuracy, 1 Oct",
+      "rep": "Release on file for Robin W., Bridgeway Center shelter",
+      "last": "2 Nov, through the shelter case worker",
+      "flags": [
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "chips": [
+        [
+          "Psychiatric discharge 28 Oct",
+          "event"
+        ],
+        [
+          "7-day follow-up missed",
+          "due"
+        ],
+        [
+          "No-show on 3 Nov",
+          "event"
+        ],
+        [
+          "Evicted, now at a shelter",
+          "social"
+        ]
+      ],
+      "best": "10 am to 4 pm through the shelter",
+      "due": "Follow-up window closes 27 Nov",
+      "slot": [
+        "10:30",
+        "Courtney, through Robin W. at Bridgeway"
+      ],
+      "restricted": "One restricted record exists for substance use treatment (42 CFR Part 2). There is no consent on file, so nobody can see what it says. Ask her about consent at the next contact.",
+      "deadlines": [
+        [
+          "30-day follow-up after psychiatric stay",
+          "By 27 Nov",
+          "18 days left",
+          "crit"
+        ],
+        [
+          "7-day follow-up",
+          "Missed",
+          "Was due 4 Nov",
+          "warn"
+        ],
+        [
+          "Discharge summary",
+          "Requested 29 Oct",
+          "Not received",
+          "info"
+        ]
+      ],
+      "summary": [
+        [
+          "Inpatient psychiatric stay from 20 to 28 Oct at Anchor Behavioral Health. The discharge summary was requested on 29 Oct and has not arrived.",
+          [
+            "A-4002",
+            "D-4101"
+          ]
+        ],
+        [
+          "She missed the 7-day follow-up: a no-show on 3 Nov, and the intensive outpatient intake was cancelled on 5 Nov. The 30-day window closes on 27 Nov.",
+          [
+            "AP-4101"
+          ]
+        ],
+        [
+          "She was evicted in September and is staying at Bridgeway Center shelter. The address on file and the housing screen are out of date.",
+          [
+            "N-4101",
+            "S-4101"
+          ]
+        ],
+        [
+          "Quetiapine and lamotrigine were filled at discharge for 30 days. A quetiapine gap in September came before the admission.",
+          [
+            "R-4102"
+          ]
+        ],
+        [
+          "Her prepaid phone keeps running out of minutes. The shelter case worker is the route that works.",
+          [
+            "N-4101"
+          ]
+        ]
+      ],
+      "timeline": [
+        [
+          "Sep",
+          "Evicted from her apartment (case note)",
+          "social",
+          "N-4101",
+          ""
+        ],
+        [
+          "1 Sep to 20 Oct",
+          "Gap in quetiapine",
+          "med",
+          "R-4102",
+          ""
+        ],
+        [
+          "20 Oct",
+          "Admitted to Anchor Behavioral Health, reason withheld",
+          "event",
+          "A-4002",
+          ""
+        ],
+        [
+          "28 Oct",
+          "Discharged, disposition says home (wrong address)",
+          "event",
+          "A-4002",
+          "received 45 min later"
+        ],
+        [
+          "28 Oct",
+          "Quetiapine and lamotrigine filled",
+          "med",
+          "R-4102",
+          ""
+        ],
+        [
+          "2 Nov",
+          "Three-way call through the shelter case worker",
+          "contact",
+          "N-4101",
+          ""
+        ],
+        [
+          "3 Nov",
+          "Psychiatry no-show",
+          "event",
+          "AP-4101",
+          ""
+        ]
+      ],
+      "meds": [
+        [
+          "Quetiapine and lamotrigine",
+          "Unknown, summary not received",
+          "Filled 28 Oct, 30 days",
+          "Quetiapine (July)",
+          "Discharge plan unknown",
+          "Medium",
+          "What did the hospital send you home on?"
+        ],
+        [
+          "Substance use medicine",
+          "Restricted",
+          "Restricted",
+          "Restricted",
+          "No consent on file",
+          "",
+          "Ask about Part 2 consent"
+        ]
+      ],
+      "labs": [],
+      "loops": [
+        [
+          "Discharge summary",
+          "Requested 29 Oct, not received. Asked again every 72 hours.",
+          "warn",
+          "D-4101"
+        ],
+        [
+          "Intensive outpatient program, 12 sessions approved",
+          "Not attended, intake cancelled",
+          "bad",
+          "AP-4101"
+        ],
+        [
+          "Lifeline phone referral",
+          "Open since 2 Nov",
+          "warn",
+          "N-4101"
+        ]
+      ],
+      "gaps": [
+        [
+          "Follow-up after psychiatric stay, 7 days",
+          "Missed"
+        ],
+        [
+          "Follow-up after psychiatric stay, 30 days",
+          "By 27 Nov"
+        ]
+      ],
+      "social": [
+        [
+          "Housing recorded as stable, in an apartment",
+          "208 days old",
+          1,
+          "The 2 Nov case note says she was evicted and is at Bridgeway Center shelter."
+        ],
+        [
+          "Prepaid phone, often out of minutes",
+          "",
+          0,
+          ""
+        ]
+      ],
+      "fresh": [
+        [
+          "Hospital alerts",
+          "28 Oct, 11:45",
+          "g"
+        ],
+        [
+          "Appointments",
+          "4 Nov",
+          "g"
+        ],
+        [
+          "Pharmacy fills",
+          "9 Nov, 06:00",
+          "g"
+        ],
+        [
+          "Clinical documents",
+          "Not received",
+          "r"
+        ],
+        [
+          "Social screen",
+          "15 Apr (208 days)",
+          "r"
+        ],
+        [
+          "Medical claims",
+          "Up to August, stay not in yet",
+          "a"
+        ]
+      ],
+      "nba": [
+        [
+          "Call Robin W. at Bridgeway between 10 and 4 to set up a three-way call, and text Courtney",
+          "The only route that has worked",
+          1
+        ],
+        [
+          "Book a telehealth psychiatry visit with Dr. Hashmi this week",
+          "30-day window closes 27 Nov",
+          0
+        ],
+        [
+          "Safety check on the call",
+          "Clinician only, never automated",
+          0
+        ],
+        [
+          "Update her address, repeat the housing screen, refer for housing",
+          "Screen contradicts the case note",
+          0
+        ],
+        [
+          "Speed up the Lifeline phone and ask about Part 2 consent",
+          "Open referral and a restricted record",
+          0
+        ]
+      ],
+      "contacts": [
+        [
+          1,
+          "Robin W., case worker at Bridgeway Center shelter",
+          "(419) 555-0115",
+          "Valid, last reached 2 Nov",
+          "Yes, release signed 2 Nov",
+          "10 am to 4 pm",
+          ""
+        ],
+        [
+          2,
+          "Courtney, prepaid phone",
+          "(419) 555-0106",
+          "Valid, but minutes often run out, so text first",
+          "Yes",
+          "Text first",
+          ""
+        ]
+      ],
+      "agenda": [
+        "How are you doing? Safety check",
+        "Do you still have your quetiapine and lamotrigine?",
+        "Rebook psychiatry as a telehealth visit this week",
+        "Confirm the shelter address and talk about housing help",
+        "Lifeline phone, and consent for the substance use team if she wants it"
+      ],
+      "fields": [
+        [
+          "Current address",
+          "Bridgeway Center shelter, from the 2 Nov case note. Replaces the apartment address.",
+          "N-4101",
+          "ai"
+        ],
+        [
+          "Follow-up appointment",
+          "Telehealth psychiatry with Dr. Hashmi, date to confirm.",
+          "AP-4101",
+          "ai"
+        ],
+        [
+          "Medicines on hand",
+          "Quetiapine 200 mg and lamotrigine 100 mg filled 28 Oct.",
+          "R-4102",
+          "ai"
+        ],
+        [
+          "Safety assessment",
+          "",
+          "Clinician only, never pre-filled",
+          "rn"
+        ],
+        [
+          "Part 2 consent",
+          "",
+          "Her decision, recorded by the clinician",
+          "rn"
+        ]
+      ],
+      "score": 50
+    },
+    "p5": {
+      "name": "Yu-Lan Chen",
+      "age": 81,
+      "sex": "F",
+      "mid": "MBR2509536",
+      "cov": "Bluestem D-SNP (Medicare and Medicaid)",
+      "program": "Complex care management, dementia",
+      "lang": "Mandarin (member), English (daughter)",
+      "pcp": "Dr. Nadia Leung, Cedar Hollow Senior Care (speaks Mandarin)",
+      "pcpTag": "Verified by MCheck Directory Accuracy, 20 Sep",
+      "rep": "Daughter Karen Chen, HIPAA authorization on file",
+      "last": "2 Nov, with her daughter",
+      "flags": [
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "chips": [
+        [
+          "Sleeping pill on 25 Oct, fall on 30 Oct",
+          "med"
+        ],
+        [
+          "Aide came 8 of 20 hours",
+          "social"
+        ],
+        [
+          "Walker never delivered",
+          "social"
+        ],
+        [
+          "Medicaid renewal 30 Nov",
+          "due"
+        ]
+      ],
+      "best": "Daughter, after 7 pm",
+      "due": "Renewal 30 Nov",
+      "slot": [
+        "19:15",
+        "Call Karen, Yu-Lan's daughter"
+      ],
+      "deadlines": [
+        [
+          "Medicaid renewal",
+          "By 30 Nov",
+          "21 days left",
+          "crit"
+        ],
+        [
+          "PCP visit after fall",
+          "Booked 19 Nov",
+          "ED asked for within a week",
+          "warn"
+        ],
+        [
+          "High-risk medicines in older adults (HEDIS)",
+          "By 31 Dec",
+          "Zolpidem counts against it",
+          "info"
+        ]
+      ],
+      "summary": [
+        [
+          "She fell at home on 30 Oct and went to the ED at Cedar Hollow General. The alert arrived 39 hours late. No fracture, sodium 131, described as drowsy.",
+          [
+            "A-5001",
+            "D-5101"
+          ]
+        ],
+        [
+          "Zolpidem, a sleeping pill, was started on 25 Oct by an urgent care doctor and is not on her PCP's list. At 81 with dementia it is high risk.",
+          [
+            "R-5103"
+          ]
+        ],
+        [
+          "The personal care aide has billed 7 to 8 hours a week for four weeks, against 20 hours approved.",
+          [
+            "C-5105"
+          ]
+        ],
+        [
+          "A walker was approved on 1 Oct and has never been delivered.",
+          [
+            "U-5102"
+          ]
+        ],
+        [
+          "Her daughter said on 2 Nov that she cannot keep this up. Medicaid renewal is due on 30 Nov.",
+          [
+            "K-5103",
+            "E-5101"
+          ]
+        ]
+      ],
+      "timeline": [
+        [
+          "1 Oct",
+          "Walker approved, never delivered",
+          "social",
+          "U-5102",
+          ""
+        ],
+        [
+          "5 Oct to 1 Nov",
+          "Aide billed 7 to 8 hours a week (20 approved)",
+          "social",
+          "C-5105",
+          ""
+        ],
+        [
+          "25 Oct",
+          "Zolpidem filled, urgent care prescriber",
+          "med",
+          "R-5103",
+          ""
+        ],
+        [
+          "30 Oct, 18:05",
+          "ED visit after a fall at home",
+          "event",
+          "A-5001",
+          "received 39 hours later"
+        ],
+        [
+          "2 Nov",
+          "Call with her daughter about caregiver strain",
+          "contact",
+          "K-5103",
+          ""
+        ],
+        [
+          "3 Nov",
+          "ED note arrived",
+          "event",
+          "D-5101",
+          "4 days later"
+        ]
+      ],
+      "meds": [
+        [
+          "Zolpidem",
+          "Not mentioned in the ED note",
+          "New on 25 Oct, urgent care prescriber",
+          "Not on PCP list",
+          "High-risk medicine from an outside prescriber",
+          "High",
+          "Is she taking the sleeping pill?"
+        ],
+        [
+          "Donepezil",
+          "",
+          "Filled 15 Oct",
+          "Active",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Amlodipine",
+          "",
+          "Filled 15 Oct",
+          "Active",
+          "",
+          "",
+          ""
+        ]
+      ],
+      "labs": [
+        [
+          "Sodium",
+          "131 mmol/L",
+          "30 Oct",
+          "Low, adds to fall risk"
+        ]
+      ],
+      "loops": [
+        [
+          "Personal care aide hours",
+          "8 of 20 hours a week delivered",
+          "bad",
+          "C-5105",
+          40
+        ],
+        [
+          "Walker from CareGear DME",
+          "Approved 1 Oct, no delivery after 39 days",
+          "bad",
+          "U-5102"
+        ],
+        [
+          "Medicaid renewal",
+          "Due 30 Nov",
+          "warn",
+          "E-5101"
+        ],
+        [
+          "PCP visit",
+          "Booked 19 Nov, later than the ED asked",
+          "warn",
+          ""
+        ]
+      ],
+      "gaps": [
+        [
+          "High-risk medicines in older adults",
+          "By 31 Dec"
+        ],
+        [
+          "Medication review for older adults",
+          "By 31 Dec"
+        ]
+      ],
+      "social": [
+        [
+          "Caregiver strain score 9 of 16 (high)",
+          "142 days old",
+          1,
+          "The 2 Nov call suggests it is worse now. Repeat the screen."
+        ],
+        [
+          "Lives with her daughter, who works full time",
+          "",
+          0,
+          ""
+        ]
+      ],
+      "fresh": [
+        [
+          "Hospital alerts",
+          "1 Nov, 39 hours late",
+          "a"
+        ],
+        [
+          "Pharmacy fills",
+          "9 Nov, 06:00",
+          "g"
+        ],
+        [
+          "Clinical documents",
+          "3 Nov",
+          "g"
+        ],
+        [
+          "Home care claims",
+          "Up to 1 Nov",
+          "g"
+        ],
+        [
+          "Home health claims",
+          "57 days late",
+          "r"
+        ],
+        [
+          "Caregiver screen",
+          "20 Jun (142 days)",
+          "a"
+        ]
+      ],
+      "nba": [
+        [
+          "Message Dr. Leung about the zolpidem started before the fall and ask for a review",
+          "The PCP decides, not the system",
+          1
+        ],
+        [
+          "Call Karen after 7 pm to check on her and offer respite care",
+          "Strain in the last call",
+          0
+        ],
+        [
+          "Raise the missing aide hours with Gentle Path Home Care",
+          "Approved but not delivered",
+          0
+        ],
+        [
+          "Chase CareGear DME about the walker",
+          "Approved but not delivered",
+          0
+        ],
+        [
+          "Start the Medicaid renewal with Karen and ask for an earlier PCP slot",
+          "Coverage at risk",
+          0
+        ]
+      ],
+      "contacts": [
+        [
+          1,
+          "Karen Chen, daughter and authorized representative",
+          "(419) 555-0137",
+          "Mobile, valid, last reached 2 Nov",
+          "Yes, HIPAA form on file",
+          "After 7 pm",
+          ""
+        ],
+        [
+          3,
+          "Yu-Lan, landline",
+          "(419) 555-0153",
+          "Valid, but she cannot complete an assessment",
+          "Yes",
+          "",
+          "dim"
+        ]
+      ],
+      "agendaNote": "Speak with Karen in English. If Yu-Lan joins the call, add a Mandarin interpreter.",
+      "agenda": [
+        "How is your mother since the fall? Sleep, drowsiness?",
+        "Is she taking the sleeping pill from urgent care? We have asked Dr. Leung to review it",
+        "The aide is coming 8 of 20 hours, and we are raising it with the agency",
+        "Walker delivery",
+        "How are you doing? Respite options and the Medicaid renewal by 30 Nov"
+      ],
+      "fields": [
+        [
+          "Fall since last contact",
+          "30 Oct, ED at Cedar Hollow General, no fracture, bruised hip.",
+          "D-5101",
+          "ai"
+        ],
+        [
+          "Medication review request",
+          "Zolpidem started 25 Oct by urgent care, sent to the PCP after the fall.",
+          "R-5103",
+          "ai"
+        ],
+        [
+          "Services delivered against approved",
+          "Aide 8 of 20 hours a week. Walker not delivered. Both escalated.",
+          "C-5105, U-5102",
+          "ai"
+        ],
+        [
+          "Caregiver strain screen",
+          "",
+          "Clinician completes with the daughter",
+          "rn"
+        ],
+        [
+          "Medicaid renewal",
+          "Due 30 Nov, started with the daughter.",
+          "E-5101",
+          "ai"
+        ]
+      ],
+      "score": 40
+    },
+    "p2": {
+      "name": "Felicia Nwosu",
+      "age": 58,
+      "sex": "F",
+      "mid": "MBR4307859",
+      "cov": "Bluestem Medicaid",
+      "program": "Diabetes, rising risk",
+      "lang": "English",
+      "pcp": "Dr. Daniel Raman, Pinecrest Health Center",
+      "pcpTag": "Verified by MCheck Directory Accuracy, 15 Aug",
+      "rep": "None",
+      "last": "Never reached, 3 attempts",
+      "flags": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "chips": [
+        [
+          "No hospital event, found by the rules",
+          "grey"
+        ],
+        [
+          "HbA1c about 9.5%, was 7.1%",
+          "med"
+        ],
+        [
+          "Diabetes medicine stopped after an approval denial",
+          "med"
+        ],
+        [
+          "Works nights",
+          "contact"
+        ]
+      ],
+      "best": "Text at 3 pm, call 4 to 6 pm",
+      "due": "Quality gaps by 31 Dec",
+      "slot": [
+        "15:00",
+        "Text Felicia, then call at 16:30"
+      ],
+      "deadlines": [
+        [
+          "Diabetes quality gaps",
+          "By 31 Dec",
+          "3 open",
+          "info"
+        ],
+        [
+          "PCP visit",
+          "None since January",
+          "10 months",
+          "warn"
+        ],
+        [
+          "Approval resubmission",
+          "Not started",
+          "Denied 13 Aug",
+          "warn"
+        ]
+      ],
+      "summary": [
+        [
+          "There was no hospital event. She came up because of pharmacy and lab data, not an alert.",
+          []
+        ],
+        [
+          "Her HbA1c on 20 Oct was 80 mmol/mol, which is 9.5% after unit conversion. It was 7.1% in January.",
+          [
+            "L-2102"
+          ]
+        ],
+        [
+          "Empagliflozin stopped in August because the pharmacy rejected it pending prior authorization, and the renewal was denied. Nobody resubmitted it.",
+          [
+            "R-2103",
+            "U-2101"
+          ]
+        ],
+        [
+          "Her statin and blood pressure medicines are filled on time, so this looks like an access problem rather than motivation.",
+          [
+            "R-2104"
+          ]
+        ],
+        [
+          "Three daytime calls went unanswered. She works nights and has opted in to texts.",
+          [
+            "K-2103",
+            "S-2101"
+          ]
+        ]
+      ],
+      "timeline": [
+        [
+          "14 Jan",
+          "PCP visit, HbA1c 7.1%",
+          "event",
+          "L-2102",
+          ""
+        ],
+        [
+          "12 Jul",
+          "Last empagliflozin fill",
+          "med",
+          "R-2103",
+          ""
+        ],
+        [
+          "11 Aug",
+          "Pharmacy rejection, prior authorization needed",
+          "med",
+          "R-2103",
+          ""
+        ],
+        [
+          "13 Aug",
+          "Prior authorization renewal denied",
+          "med",
+          "U-2101",
+          ""
+        ],
+        [
+          "20 Oct",
+          "Urgent care visit, HbA1c 80 mmol/mol",
+          "event",
+          "L-2102",
+          "lab received 8 days later"
+        ],
+        [
+          "3 to 5 Nov",
+          "Three unanswered daytime calls",
+          "contact",
+          "K-2103",
+          ""
+        ]
+      ],
+      "meds": [
+        [
+          "Empagliflozin",
+          "",
+          "Last filled 12 Jul, rejected 11 Aug for prior authorization",
+          "Active",
+          "Access gap after a denial",
+          "Medium",
+          "Did the pharmacy turn you away? Cost?"
+        ],
+        [
+          "Metformin ER",
+          "",
+          "Last filled 28 Jun, none seen since",
+          "Active",
+          "Gap, or paying cash",
+          "Medium",
+          "Are you buying it somewhere else?"
+        ],
+        [
+          "Atorvastatin and lisinopril",
+          "",
+          "Filled 30 Aug, 90 days",
+          "Active",
+          "",
+          "",
+          ""
+        ]
+      ],
+      "labs": [
+        [
+          "HbA1c",
+          "80 mmol/mol, shown as 9.5%",
+          "20 Oct",
+          "Up from 7.1% in January"
+        ],
+        [
+          "Glucose (random)",
+          "286 mg/dL",
+          "20 Oct",
+          "High"
+        ]
+      ],
+      "loops": [
+        [
+          "Empagliflozin prior authorization",
+          "Denied 13 Aug, never resubmitted",
+          "bad",
+          "U-2101"
+        ],
+        [
+          "PCP visit",
+          "None since January",
+          "warn",
+          ""
+        ]
+      ],
+      "gaps": [
+        [
+          "Blood sugar control (HbA1c over 9%)",
+          "By 31 Dec"
+        ],
+        [
+          "Diabetic eye exam",
+          "By 31 Dec"
+        ],
+        [
+          "Kidney health check",
+          "By 31 Dec"
+        ]
+      ],
+      "social": [
+        [
+          "Works 2 jobs including nights; says medicines cost too much",
+          "272 days old",
+          1,
+          "Explains the missed calls and the medicine gap."
+        ]
+      ],
+      "fresh": [
+        [
+          "Pharmacy fills",
+          "9 Nov, 06:00",
+          "g"
+        ],
+        [
+          "Labs",
+          "28 Oct",
+          "g"
+        ],
+        [
+          "Medical claims",
+          "Up to 20 Oct",
+          "a"
+        ],
+        [
+          "Risk model",
+          "1 Nov, 0.35 to 0.62",
+          "g"
+        ],
+        [
+          "Social screen",
+          "10 Feb (272 days)",
+          "r"
+        ]
+      ],
+      "nba": [
+        [
+          "Text at 3 pm and call between 4 and 6 pm",
+          "Daytime calls failed; she works nights",
+          1
+        ],
+        [
+          "Ask Dr. Raman to resubmit the empagliflozin approval or switch to a covered drug",
+          "Gap began with the denial",
+          0
+        ],
+        [
+          "Book a PCP visit",
+          "HbA1c 9.5%",
+          0
+        ],
+        [
+          "Add the eye exam and kidney check to the same visit",
+          "Open quality gaps",
+          0
+        ]
+      ],
+      "contacts": [
+        [
+          1,
+          "Felicia",
+          "(419) 555-0154",
+          "Mobile, valid, opted in to texts",
+          "Yes",
+          "Text 3 pm, call 4 to 6 pm",
+          ""
+        ]
+      ],
+      "agenda": [
+        "Start with access: the pharmacy stopped your Jardiance in August, what happened?",
+        "Metformin: where do you get it?",
+        "Book a PCP visit, the HbA1c is high",
+        "Eye exam and kidney test at the same visit",
+        "Best time and way to reach her from now on"
+      ],
+      "fields": [
+        [
+          "Reason for the medicine gap",
+          "Empagliflozin stopped after the August approval denial. Cost worry.",
+          "R-2103, U-2101",
+          "ai"
+        ],
+        [
+          "Latest HbA1c",
+          "9.5% (80 mmol/mol) on 20 Oct, up from 7.1%.",
+          "L-2102",
+          "ai"
+        ],
+        [
+          "Preferred contact",
+          "Text after 3 pm, works nights.",
+          "S-2101, K-2103",
+          "ai"
+        ],
+        [
+          "Her own goals",
+          "",
+          "Clinician asks on the call",
+          "rn"
+        ]
+      ],
+      "score": 25
+    }
+  },
+  "records": {
+    "A-1001": {
+      "type": "Hospital alert (ADT)",
+      "source": "Health information exchange",
+      "happened": "4 Nov, 22:15",
+      "received": "4 Nov, 22:31",
+      "detail": "Admitted to Cedar Hollow General Hospital, inpatient, for shortness of breath. A duplicate copy of this alert arrived at 03:02 and was merged automatically.",
+      "quote": ""
+    },
+    "A-1004": {
+      "type": "Hospital alert (ADT)",
+      "source": "Health information exchange",
+      "happened": "7 Nov, 14:10",
+      "received": "7 Nov, 14:25",
+      "detail": "Discharged home. The alert carries no diagnosis. CMS only requires the patient, practitioner and hospital name, so the reason comes from the discharge summary.",
+      "quote": ""
+    },
+    "D-1101": {
+      "type": "Discharge summary",
+      "source": "Health information exchange, Cedar Hollow General",
+      "happened": "Stay 4 to 7 Nov",
+      "received": "8 Nov, 09:12",
+      "detail": "Acute on chronic systolic heart failure, ejection fraction 25%, with acute kidney injury. Medication changes extracted by MCheck Clinical.",
+      "quote": "Lisinopril (STOP, AKI). Metformin (HOLD until renal recheck). Spironolactone 25 mg daily (NEW). Furosemide 40 mg BID (increased from 20 mg daily)."
+    },
+    "R-1101": {
+      "type": "Pharmacy claim",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "Filled 20 Oct",
+      "received": "9 Nov, 06:00 batch",
+      "detail": "Lisinopril 10 mg daily, 90 day supply from Ashby Falls Pharmacy. Supply lasts until 18 Jan.",
+      "quote": ""
+    },
+    "R-1102": {
+      "type": "Pharmacy claim",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "Filled 15 Sep",
+      "received": "9 Nov, 06:00 batch",
+      "detail": "Furosemide 20 mg daily, 30 day supply. Ran out on 15 Oct. No refill since.",
+      "quote": ""
+    },
+    "R-1105": {
+      "type": "Pharmacy, no claim found",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "Since discharge",
+      "received": "9 Nov, 06:00 batch",
+      "detail": "No paid claim for spironolactone or the new furosemide dose since discharge on 7 Nov at 14:10.",
+      "quote": ""
+    },
+    "N-1101": {
+      "type": "Case note",
+      "source": "Care management system",
+      "happened": "12 Oct",
+      "received": "12 Oct",
+      "detail": "Your heart failure program call.",
+      "quote": "Ankle swelling for a week, weight not tracked, no scale at home. Wife manages pills. Task: order scale."
+    },
+    "L-1105": {
+      "type": "Lab results",
+      "source": "Health information exchange, Cedar Hollow General",
+      "happened": "4 and 6 Nov",
+      "received": "8 Nov",
+      "detail": "Potassium 4.9 mmol/L (range 3.5 to 5.1). eGFR 31. Creatinine 2.1, up from 1.4 in June. Units checked by MCheck Clinical.",
+      "quote": ""
+    },
+    "U-1101": {
+      "type": "Prior authorization",
+      "source": "Utilization management system",
+      "happened": "Requested 7 Nov",
+      "received": "7 Nov",
+      "detail": "Home health skilled nursing, 8 visits in 30 days, Evergreen Home Health. Status code PEND-CI means the plan has asked the hospital for clinical information. It has waited over the weekend.",
+      "quote": ""
+    },
+    "AP-1101": {
+      "type": "Appointments feed",
+      "source": "Hawthorn Family Clinic (connected)",
+      "happened": "None found",
+      "received": "9 Nov, 05:00",
+      "detail": "No visit booked. This clinic shares its schedule, so none really means none. The cardiology clinic does not share, so its status is unknown.",
+      "quote": ""
+    },
+    "A-3005": {
+      "type": "Hospital alert (ADT)",
+      "source": "Health information exchange",
+      "happened": "7 Nov, 23:50",
+      "received": "8 Nov, 00:12",
+      "detail": "ED registration at St. Ambrose Hospital for an asthma attack, discharged 8 Nov at 04:20. The phone number given at registration, (419) 555-0124, differs from the one in the member file.",
+      "quote": ""
+    },
+    "D-3101": {
+      "type": "ED note",
+      "source": "Health information exchange, St. Ambrose",
+      "happened": "7 to 8 Nov",
+      "received": "8 Nov, 11:40",
+      "detail": "Asthma exacerbation. Prednisone for 5 days, albuterol refill, see PCP in 3 to 5 days.",
+      "quote": "ran out of the purple inhaler, too expensive ... staying with sister on Tanner St"
+    },
+    "R-3106": {
+      "type": "Pharmacy claims (4)",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "23 Aug, 19 Sep, 10 Oct, 8 Nov",
+      "received": "9 Nov, 06:00",
+      "detail": "Albuterol rescue inhaler at Wellway Pharmacy #313, four fills in 90 days. The controller inhaler was last filled on 30 May.",
+      "quote": ""
+    },
+    "K-3107": {
+      "type": "Contact history",
+      "source": "Dialler log",
+      "happened": "11 Oct to 5 Nov",
+      "received": "Real time",
+      "detail": "Four calls to (419) 555-0143 returned number not in service. Phone validation marked it disconnected on 21 Oct, and three of the calls came after that.",
+      "quote": ""
+    },
+    "N-3101": {
+      "type": "Case note",
+      "source": "Care management system",
+      "happened": "5 Nov",
+      "received": "5 Nov",
+      "detail": "",
+      "quote": "Consider unable to reach closure after 30 days per policy."
+    },
+    "A-3001": {
+      "type": "Hospital alerts, not linked (2)",
+      "source": "Health information exchange",
+      "happened": "22 Aug and 27 Oct",
+      "received": "Same day",
+      "detail": "Two ED visits at Elmhurst Medical Center registered under the hospital's own record number as WHITLOCK, TRAV with an old address and no phone. Match score 88% on name, birth date and address. Records below 95% are never linked automatically.",
+      "quote": ""
+    },
+    "A-4002": {
+      "type": "Hospital alert (ADT)",
+      "source": "Health information exchange",
+      "happened": "28 Oct, 11:00",
+      "received": "28 Oct, 11:45",
+      "detail": "Discharged from Anchor Behavioral Health after an inpatient stay from 20 to 28 Oct. Reason withheld by the facility. Disposition says home, but the address on file is the apartment she was evicted from.",
+      "quote": ""
+    },
+    "D-4101": {
+      "type": "Discharge summary, not received",
+      "source": "Health information exchange request",
+      "happened": "Requested 29 Oct",
+      "received": "Not received",
+      "detail": "The facility does not share behavioral health records without consent. A new request goes out every 72 hours.",
+      "quote": ""
+    },
+    "AP-4101": {
+      "type": "Appointments feed",
+      "source": "Crossroads Behavioral Health (connected)",
+      "happened": "3 Nov, 10:00",
+      "received": "4 Nov",
+      "detail": "Psychiatry follow-up with Dr. R. Hashmi: no-show. Intensive outpatient intake on 5 Nov was cancelled because she could not be reached. A no-show never appears in claims.",
+      "quote": ""
+    },
+    "N-4101": {
+      "type": "Case note, behavioral health counselor",
+      "source": "Care management system",
+      "happened": "2 Nov",
+      "received": "2 Nov",
+      "detail": "C. Ellison, LCSW, three-way call through the shelter case worker.",
+      "quote": "Evicted in September, staying at Bridgeway Center shelter. Agreed to psychiatry on 3 Nov at 10:00. Phone runs out of minutes, Lifeline phone referral pending."
+    },
+    "R-4102": {
+      "type": "Pharmacy claims",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "28 Oct",
+      "received": "9 Nov, 06:00",
+      "detail": "Quetiapine 200 mg and lamotrigine 100 mg, 30 days each, from the Anchor outpatient pharmacy. An earlier quetiapine gap from 1 Sep to 20 Oct came before the admission.",
+      "quote": ""
+    },
+    "S-4101": {
+      "type": "Social needs screen",
+      "source": "Medicaid screening",
+      "happened": "15 Apr",
+      "received": "15 Apr",
+      "detail": "Housing recorded as stable, in an apartment. Food insecure. Prepaid phone often out of minutes. Now 208 days old and contradicted by the 2 Nov case note.",
+      "quote": ""
+    },
+    "A-5001": {
+      "type": "Hospital alert (ADT)",
+      "source": "Health information exchange",
+      "happened": "30 Oct, 18:05",
+      "received": "1 Nov, 09:30",
+      "detail": "ED registration at Cedar Hollow General after a fall at home. The alert arrived about 39 hours late in a weekend batch.",
+      "quote": ""
+    },
+    "D-5101": {
+      "type": "ED note",
+      "source": "Health information exchange, Cedar Hollow General",
+      "happened": "30 Oct",
+      "received": "3 Nov, 08:05",
+      "detail": "Fall with right hip bruising. X-ray and head CT negative. Sodium 131. PCP within one week, physical therapy evaluation, home safety review.",
+      "quote": "patient drowsy, family reports poor sleep"
+    },
+    "R-5103": {
+      "type": "Pharmacy claim",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "25 Oct",
+      "received": "26 Oct",
+      "detail": "Zolpidem 10 mg at bedtime, 30 days, prescribed by Dr. A. Keller at Parkside Urgent Care, not by her PCP. The Beers Criteria advise against it in older adults because of falls.",
+      "quote": ""
+    },
+    "C-5105": {
+      "type": "Medicaid home care claims (4 weeks)",
+      "source": "Claims",
+      "happened": "5 Oct to 1 Nov",
+      "received": "14 Oct to 4 Nov",
+      "detail": "Personal care billed at 32, 32, 28 and 32 units a week (7 to 8 hours) against 80 units (20 hours) authorized for Gentle Path Home Care.",
+      "quote": ""
+    },
+    "U-5102": {
+      "type": "Prior authorization",
+      "source": "Utilization management system",
+      "happened": "Approved 1 Oct",
+      "received": "1 Oct",
+      "detail": "Walker with wheels from CareGear DME. No delivery claim after 39 days.",
+      "quote": ""
+    },
+    "K-5103": {
+      "type": "Contact history",
+      "source": "Care management system",
+      "happened": "2 Nov, 19:45",
+      "received": "2 Nov",
+      "detail": "Call with daughter Karen, the authorized representative, 20 minutes.",
+      "quote": "Mom not sleeping, up at night. The aide only comes some days. I can't keep doing this."
+    },
+    "E-5101": {
+      "type": "Eligibility",
+      "source": "Enrollment file",
+      "happened": "Recertification due 30 Nov",
+      "received": "8 Nov",
+      "detail": "Full dual eligible in a D-SNP. If Medicaid lapses on 30 Nov, the personal care hours stop.",
+      "quote": ""
+    },
+    "L-2102": {
+      "type": "Lab result",
+      "source": "Urgent care lab",
+      "happened": "20 Oct",
+      "received": "28 Oct",
+      "detail": "HbA1c reported as 80 mmol/mol (IFCC units). MCheck Clinical converted it to 9.5% so it trends correctly against 7.1% from January. Without that step the chart would read 7.1 then 80.",
+      "quote": ""
+    },
+    "R-2103": {
+      "type": "Pharmacy claim, rejected",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "11 Aug",
+      "received": "12 Aug",
+      "detail": "Empagliflozin 10 mg rejected with code 75, prior authorization required. Last paid fill was 12 Jul.",
+      "quote": ""
+    },
+    "U-2101": {
+      "type": "Prior authorization",
+      "source": "Utilization management system",
+      "happened": "Denied 13 Aug",
+      "received": "13 Aug",
+      "detail": "Renewal denied because step therapy documentation was missing. The prescriber never resubmitted.",
+      "quote": ""
+    },
+    "R-2104": {
+      "type": "Pharmacy claims",
+      "source": "Pharmacy benefit manager, daily file",
+      "happened": "30 Aug",
+      "received": "31 Aug",
+      "detail": "Atorvastatin and lisinopril filled on time for 90 days. Metformin last filled 28 Jun. She may be paying cash with a discount card, which the plan cannot see.",
+      "quote": ""
+    },
+    "K-2103": {
+      "type": "Contact history",
+      "source": "Dialler log",
+      "happened": "3 to 5 Nov",
+      "received": "Real time",
+      "detail": "Three calls at 14:00, 10:30 and 11:15 with no answer or a full voicemail. She opted in to texts, but no text was sent.",
+      "quote": ""
+    },
+    "S-2101": {
+      "type": "Social needs screen",
+      "source": "Medicaid screening",
+      "happened": "10 Feb",
+      "received": "10 Feb",
+      "detail": "",
+      "quote": "Works 2 jobs including a warehouse night shift. Medicines cost too much."
+    },
+    "P-3001": {
+      "type": "Provider directory",
+      "source": "MCheck Directory Accuracy",
+      "happened": "Checked 2 Nov",
+      "received": "2 Nov",
+      "detail": "Elmhurst Primary Care moved in 2026. The listed phone reaches the old building. Directory Accuracy marks this listing as outdated and suggests the new number (419) 555-0188.",
+      "quote": ""
+    }
+  },
+  "team": [
+    {
+      "n": "Maria C., RN",
+      "states": "OH, KY",
+      "lang": "English",
+      "prog": "Heart failure, complex care",
+      "act": 48,
+      "cap": 50,
+      "sig": 5,
+      "hi": 3
+    },
+    {
+      "n": "Ana R., RN",
+      "states": "OH",
+      "lang": "English, Spanish",
+      "prog": "Heart failure, transitions",
+      "act": 36,
+      "cap": 50,
+      "sig": 2,
+      "hi": 1
+    },
+    {
+      "n": "Wei L., RN",
+      "states": "OH, PA",
+      "lang": "English, Mandarin",
+      "prog": "Complex care, dementia",
+      "act": 41,
+      "cap": 50,
+      "sig": 1,
+      "hi": 1
+    },
+    {
+      "n": "James O., LCSW",
+      "states": "OH, MI",
+      "lang": "English",
+      "prog": "Behavioral health",
+      "act": 27,
+      "cap": 40,
+      "sig": 1,
+      "hi": 1
+    },
+    {
+      "n": "Priya S., RN",
+      "states": "OH, IN",
+      "lang": "English, Hindi",
+      "prog": "Diabetes, complex care",
+      "act": 31,
+      "cap": 50,
+      "sig": 1,
+      "hi": 0
+    },
+    {
+      "n": "Dana K., RN",
+      "states": "OH",
+      "lang": "English",
+      "prog": "Transitions of care",
+      "act": 84,
+      "cap": 90,
+      "sig": 7,
+      "hi": 2
+    }
+  ],
+  "routing": [
+    {
+      "id": "r1",
+      "what": "New referral: heart failure discharge from Cedar Hollow General, Spanish speaking, Ohio",
+      "to": "Ana R., RN",
+      "why": "Speaks Spanish, licensed in Ohio, heart failure program, 36 of 50 cases",
+      "alt": "Maria C. is at 48 of 50",
+      "from": null,
+      "toIdx": 1
+    },
+    {
+      "id": "r2",
+      "what": "Move Yu-Lan Chen from Maria C. to Wei L.",
+      "to": "Wei L., RN",
+      "why": "Speaks Mandarin with the member, dementia program, 41 of 50 cases. Daughter stays the main contact",
+      "alt": "Keeps Maria under capacity",
+      "from": 0,
+      "toIdx": 2
+    },
+    {
+      "id": "r3",
+      "what": "Make James O. the behavioral health care manager for Courtney Stanton",
+      "to": "James O., LCSW",
+      "why": "Behavioral health caseload, 27 of 40 cases. C. Ellison stays on as her counselor",
+      "alt": "Maria stays on for physical health",
+      "from": null,
+      "toIdx": 3
+    }
+  ]
+}
